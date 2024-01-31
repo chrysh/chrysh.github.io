@@ -12,12 +12,15 @@ menu:
     - name: Home
       url: ""
       weight: 1
-    - name: About
-      url: "about/"
-      weight: 2
+    - name: Posts
+      url: "post/"
+      weight: 3
     - name: Categories
       url: "categories/"
-      weight: 3
+      weight: 4
+    - name: About
+      url: "about/"
+      weight: 5
 
 params:
   description: "A blog on Linux Kernel Development and related tech stuff."
