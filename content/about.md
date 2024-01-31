@@ -24,3 +24,9 @@ Check out my latest talks at [ELCE](https://www.embeddedlinuxconference.com/):
 * [Exploiting Buffer Overflows on RISC-V](https://www.youtube.com/watch?v=uBhaw49qooE)
 * [Analysing colliding particles with 256 Threads - Performance of an embarrassingly
 parallel problem on the Intel Xeon Phi Knights Landing](https://media.ccc.de/v/EBEZQG)
+
+
+# about::contact
+
+Questions? Suggestions? Feel free to write me a pull request or contact me via mail on:  
+`fun_with_rust(a)chrysh.de`
