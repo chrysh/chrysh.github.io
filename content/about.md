@@ -5,7 +5,7 @@ author: Christina Quast
 
 This blog got started out as a way to document my way into writing **Linux Kernel
 modules** in **Rust**. It seemed hard to find information on this topic, so I
-started out first with [Advent of Code](https://adventofcode.com/2024/) in 2024
+started out first with [Advent of Code](https://adventofcode.com/2023/) in 2023
 in order to learn Rust. From challenge to challenge, I feel like [my
 code](https://github.com/chrysh/Advent-of-Code-2023) became more "rusty".
 
