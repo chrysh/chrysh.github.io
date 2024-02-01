@@ -11,7 +11,7 @@ tags:
 
 # Check out code
 
-I recommend checking out the [Rust-for-Linux kernel](https://github.com/Rust-for-Linux) to play around with, because it has many more sample modules than the mainline kernel. Even though the interfaces are probably not stable, you can an idea where development is going to.
+I recommend checking out the [Rust-for-Linux kernel](https://github.com/Rust-for-Linux) to play around with, because it has many more sample modules than the mainline kernel. Even though the interfaces are probably not stable, you can get an idea where development is headed.
 
 [<img src="/static/img/rusty_penguin_1.jpeg" style="max-width:30%;min-width:40px;float:right;padding:50px" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
 
