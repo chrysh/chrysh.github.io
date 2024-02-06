@@ -28,5 +28,5 @@ parallel problem on the Intel Xeon Phi Knights Landing](https://media.ccc.de/v/E
 
 # about::contact
 
-Questions? Suggestions? Feel free to write me a pull request or contact me via mail on:  
+Questions? Suggestions? Feel free to write me a [pull request](https://github.com/chrysh/chrysh.github.io) or contact me via mail on:  
 `fun_with_rust(a)chrysh.de`
