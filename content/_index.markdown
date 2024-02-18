@@ -1,6 +1,8 @@
 ---
 title: Home
 ---
+<meta name="google-site-verification" content="m3n6pzMcloBT3cd6VuLuPT6UnxIO7wfNvpd59oC6S14"/>
+
 [<img src="static/img/rusty_penguin_0.jpeg" style="max-width:35%;min-width:40px;float:right;padding:40px" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
 # Rusty Linux tech blog
 
