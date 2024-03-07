@@ -7,7 +7,14 @@ categories:
   - Linux Kernel
   - net-next
 tags:
-  - Markdown
+  - Rust
+  - Kernel Driver
+  - Linux Kernel
+  - net-next
+  - network driver
+  - rockchip
+  - PHY
+  - ax88796b
 ---
 
 # Why the phy?

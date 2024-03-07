@@ -7,7 +7,11 @@ categories:
   - Linux Kernel
   - C bindings
 tags:
-  - Markdown
+  - Rust
+  - Kernel Driver
+  - Linux Kernel
+  - C bindings
+  - bindgen
 ---
 
 # What are bindings?

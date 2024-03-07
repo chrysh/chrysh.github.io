@@ -8,8 +8,16 @@ categories:
   - Linux Kernel
   - Community
 tags:
-  - Markdown
-  - Zulip
+  - Rust vs C
+  - Kernel Driver
+  - Linux Kernel
+  - Community
+  - Memory safety
+  - Buffer overflow
+  - Error handling
+  - Cleanup
+  - Linker
+  - Compiler
 ---
 
 # +++ Plus +++

@@ -6,7 +6,13 @@ categories:
   - Kernel Driver
   - Linux Kernel
 tags:
-  - Markdown
+  - Rust
+  - Kernel Driver
+  - Linux Kernel
+  - Compiling
+  - make
+  - Kernel Module
+  - Rust for Linux
 ---
 
 # Check out code

@@ -7,8 +7,12 @@ categories:
   - Linux Kernel
   - Community
 tags:
-  - Markdown
   - Zulip
+  - Rust
+  - Kernel Driver
+  - Linux Kernel
+  - Community
+  - Reference Driver
 ---
 
 
@@ -82,5 +86,3 @@ Rust instead of C reduces the lines of code quite a bit.
 # Open meetings
 If you want to get in touch, also feel free to join one of the [Open
 Meetings](https://rust-for-linux.com/contact#open-meeting).
-
-
