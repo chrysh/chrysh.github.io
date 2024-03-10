@@ -103,7 +103,7 @@ to segmentation faults on some architectures, and slow down memory access on
 others.
 
 The functions implemented use
-[bindings](https://blog.christina-quast.de/post/2024/02/02/creating-c-bindings/)
+[bindings](../../../../2024/02/02/creating-c-bindings/)
 to call the kernel alloc functions. The only gotcha is that you have to call
 krealloc instead of the usually used `kmalloc` function, because kmalloc is an
 inline function and can therefore not be **bound to a result**.  In other words,
