@@ -102,6 +102,31 @@ than the ones required by the `struct Layout`. Unaligned memory access can lead
 to segmentation faults on some architectures, and slow down memory access on
 others.
 
+```
+struct KernelAllocator;
+
+unsafe fn krealloc_aligned(ptr: *mut u8, new_layout: Layout, flags: bindings::gfp_t) -> *mut u8 {
+    let layout = new_layout.pad_to_align();
+    let mut size = layout.size();
+
+    if layout.align() > bindings::ARCH_SLAB_MINALIGN {
+        size = size.next_power_of_two();
+    }
+    unsafe { bindings::krealloc(ptr as *const core::ffi::c_void, size, flags) as *mut u8 }
+}
+
+unsafe impl GlobalAlloc for KernelAllocator {
+    unsafe fn alloc(&self, layout: Layout) -> *mut u8 {
+        unsafe { krealloc_aligned(ptr::null_mut(), layout, bindings::GFP_KERNEL) }
+    }
+
+    unsafe fn dealloc(&self, ptr: *mut u8, _layout: Layout) {
+        unsafe { bindings::kfree(ptr as *const core::ffi::c_void); }
+    }
+    // ...
+}
+```
+
 The functions implemented use
 [bindings](../../../../2024/02/02/creating-c-bindings/)
 to call the kernel alloc functions. The only gotcha is that you have to call
