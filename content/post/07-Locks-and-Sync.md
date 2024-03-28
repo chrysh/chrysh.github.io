@@ -16,8 +16,8 @@ tags:
 
 # Synchronization
 
-The [LWN article](https://lwn.net/Articles/863459/) was an attempt to give a
-side by side code comparison of how the same PL061 GPIO driver looks like
+[This LWN article](https://lwn.net/Articles/863459/) was an attempt to give a
+side by side code comparison of how the same GPIO driver looks like
 written in C and Rust. Even though the synchronization code that ended up in the
 Linux Kernel is different from what we see there, it gives a good overview of
 how a driver using locking primitives could look like. For this blog post, we
@@ -48,10 +48,10 @@ For the time being, we concentrate on the `lock` crate, where the types
 
 ## Spinlocks
 
-The principle of a spinlock is, as the name suggest, when multiple CPUs attempt
+The principle of a spinlock is, as the name suggest, when multiple threads attempt
 to lock the same spinlock, only one is allowed to progress at a time, while the
-other CPUs will continue spinning until the spinlock is unlocked. At this point,
-the next CPU will be allowed to progress in its execution.
+other threads will continue spinning. As soon as the spinlock is unlocked,
+the next thread is be allowed to progress in its execution.
 
 When looking at spinlock usage, the first apparent difference is the between
 Rust and C drivers lies in the include files. The functions and data relevant

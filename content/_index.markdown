@@ -6,9 +6,9 @@ title: Home
 [<img src="static/img/rusty_penguin_0.jpeg" style="max-width:35%;min-width:40px;float:right;padding:40px" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
 # Rusty Linux tech blog
 
-## Yet another blogger
+## Your favorite Rust for Linux blogger
 
-When I recently became curious about what the current state of Rust integreation
+When I recently became curious about what the current state of Rust integration
 in the Linux Kernel was, I found example drivers online that did not compile
 with the mainline kernel and there was no good source to explain what the
 current state of progress is. So I started my own blog, with the goal to get a
