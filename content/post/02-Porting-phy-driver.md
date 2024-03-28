@@ -17,6 +17,8 @@ tags:
   - ax88796b
 ---
 
+[<img class="penguin" src="/static/img/rusty_penguin_2.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
+
 # Why the phy?
 
 I saw that **Fujita Tomonori** had added the **Rust version** of the ax88796b
@@ -29,8 +31,6 @@ This driver is meant as a reference driver for further phy drivers. The
 [phy.rs](https://elixir.bootlin.com/linux/v6.8-rc3/source/rust/kernel/net/phy.rs)
 file uses binding to `struct phy_device` and to pass through C function calls to
 phy driver functions.
-
-[<img src="/static/img/rusty_penguin_2.jpeg" style="max-width:30%;min-width:40px;float:right;padding:50px" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
 
 # Changing Kconfig and Makefile
 First step when you add a **new Linux kernel driver** is always to edit the

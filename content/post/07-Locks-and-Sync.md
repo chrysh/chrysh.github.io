@@ -12,7 +12,7 @@ tags:
   - Linux Kernel
 ---
 
-[<img src="/static/img/rusty_penguin_8.jpeg" style="max-width:40%;min-width:40px;float:right;padding:40px" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
+[<img class="penguin" src="/static/img/rusty_penguin_8.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
 
 # Synchronization
 

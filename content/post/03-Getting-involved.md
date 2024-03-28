@@ -15,6 +15,7 @@ tags:
   - Reference Driver
 ---
 
+[<img class="penguin" src="/static/img/rusty_penguin_4.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
 
 # Rust for Linux
 The best starting place is probably the web page of the project,
@@ -38,9 +39,6 @@ Rust is no exception there. Therefore, only things that are actually used can be
 upstreamed.  When new Rust kernel modules arrive, the features that they depend
 on are also added. As an example, workqueues were merged because Rust Binder
 will need them eventually.
-
-
-[<img src="/static/img/rusty_penguin_4.jpeg" style="max-width:35%;min-width:40px;float:right;padding:50px" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
 
 # Mailing list
 You can subscribe to the mailing list

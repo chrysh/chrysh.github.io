@@ -22,7 +22,9 @@ tags:
 
 # +++ Plus +++
 
+[<img class="penguin" src="/static/img/rusty_penguin_5.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
 ## Memory bugs and Concurrency
+
 Let's get the obvious out of the way: With Rust, you will inherently write safer
 code, because the compiler will complain until you do. **Whole error classes**
 will become less common when Rust programs are widely used:
@@ -33,8 +35,6 @@ wrap all your code in `unsafe` blocks, which bypasses some of the compiler
 checks. Furthermore, using cyclic data structures can also lead to memory leaks
 because they always have a reference count > 1 and can therefore not be cleaned
 up.
-
-[<img src="/static/img/rusty_penguin_5.jpeg" style="max-width:35%;min-width:40px;float:right;padding:50px" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
 
 ## Error handling and Cleanup
 When you look into any driver code, you will find there are a lot of constructs

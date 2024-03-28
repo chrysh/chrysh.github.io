@@ -14,6 +14,8 @@ tags:
   - bindgen
 ---
 
+[<img class="penguin" src="/static/img/rusty_penguin_3.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
+
 # What are bindings?
 Bindings are ways to create an interface between two programming languages,
 which allow code written in one language to call from code in another language.
@@ -29,7 +31,6 @@ different places (the stack, registers, etc). And even between different
 compilers or compiler versions, the calling conventions can differ! The bindings
 abstract away those differences.
 
-[<img src="/static/img/rusty_penguin_3.jpeg" style="max-width:35%;min-width:40px;float:right;padding:50px" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
 
 # How bindings are created
 
