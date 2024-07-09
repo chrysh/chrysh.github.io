@@ -209,4 +209,4 @@ than the C version of this driver.
 Unfortunately, I could not try out the Rust Rockchip driver, because I do not
 have a board with this phy chip. But it compiles, so ship it!
 
-See the [patch file](https://lore.kernel.org/lkml/20240201-rockchip-rust-phy_depend-v2-3-c5fa4faab924@christina-quast.de/) for the full version of the driver.
+See the [patch file](https://lore.kernel.org/lkml/20240201-rockchip-rust-phy_depend-v2-3-c5fa4faab924@christina-quast.de/) for the full version of the driver or the list of commits on [github](../../../02/06/porting-my-first-phy-driver/).
