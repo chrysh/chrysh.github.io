@@ -162,7 +162,7 @@ pub trait Driver {
 The version of
 [phy.rs](https://elixir.bootlin.com/linux/v6.8-rc3/source/rust/kernel/net/phy.rs)
 that I used for the driver in January 2024 did not have the function
-`config_init`, so I had to add it myself:
+`config_aneg`, so I had to add it myself:
 
 ```
 pub struct Device(Opaque<bindings::phy_device>);
