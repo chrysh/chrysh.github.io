@@ -18,8 +18,9 @@ After finishing a diploma in Computer Science and a masters in Electrical
 Engineering, I have been working in the field of Embedded Linux for nearly a
 decade now. From time to time, I do fun projects and talks about it.
 
-Check out my latest talks at [ELCE](https://www.embeddedlinuxconference.com/):
+Check out my latest talks:
 
+* [Rust in the Linux Kernel - MRMCD 2024](https://media.ccc.de/v/2024-323-rust-in-the-linux-kernel-a-status-check)
 * [Common Attacks on IoT Devices - ELCE 2018](https://www.youtube.com/watch?v=vKZVbX-hNyE)
 * [Exploiting Buffer Overflows on RISC-V](https://www.youtube.com/watch?v=uBhaw49qooE)
 * [Analysing colliding particles with 256 Threads - Performance of an embarrassingly
