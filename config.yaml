@@ -1,4 +1,4 @@
-baseURL: "https://blog.christina-quast.de/"
+baseURL: "https://rust.christina-quast.de/"
 title: "Linux kernel programming blog"
 languageCode: "en-us"
 theme: "hugo-xmin"
@@ -21,9 +21,12 @@ menu:
     - name: About
       url: "about/"
       weight: 5
+    - name: Workshops
+      url: "workshops/"
+      weight: 6
 
 params:
-  description: "A blog on Linux Kernel Development and related tech stuff."
+  description: "A blog on Rust, Linux Kernel Development and related tech stuff."
   footer: "&copy; [Christina Quast](https://chrysh.github.io) 2024 -- {Year} | [Github](https://github.com/chrysh)"
 
 markup:
