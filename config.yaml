@@ -2,6 +2,7 @@ baseURL: "https://rust.christina-quast.de/"
 title: "Linux kernel programming blog"
 languageCode: "en-us"
 theme: "hugo-xmin"
+googleAnalytics: "G-VM75BY4RBR"
 
 permalinks:
   note: "/note/:year/:month/:day/:slug/"
