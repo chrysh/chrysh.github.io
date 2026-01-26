@@ -1,0 +1,33 @@
+.date {
+  color: #333;
+  font-size: 0.8em;
+  padding: 10px;
+}
+
+body {
+  text-align: justify;
+  font-family: monospace, Optima, Candara, Calibri, Arial, sans-serif;
+}
+
+.penguin {
+  max-width:40%;
+  float:right;
+  padding:3%;
+  padding-right: 0%;
+}
+
+@media only screen and (max-width: 979px) {
+  body {
+    font-size: 60%;
+  }
+
+  .site-header a {
+    font-size: 4px !important;
+  }
+
+  .penguin {
+    padding: 2%;
+    padding-top: 1%;
+    padding-right: 0%;
+  }
+}

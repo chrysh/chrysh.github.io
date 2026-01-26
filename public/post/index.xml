@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Linux kernel programming blog</title>
+    <link>http://localhost:1313/post/</link>
+    <description>Recent content in Posts on Linux kernel programming blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 09 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hashset</title>
+      <link>http://localhost:1313/post/2024/08/09/hashset/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/08/09/hashset/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_11.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;why-reinventing-hashset&#34;&gt;Why reinventing HashSet?&lt;/h1&gt;&#xA;&lt;p&gt;This article will focus on adding a Hashset to the&#xA;&lt;a href=&#34;https://github.com/chrysh/quarto_rs/tree/add_hashset&#34;&gt;quarto_rs&lt;/a&gt;. As previously&#xA;discussed, because we cannot use the Rust stdlib when writing code for the Linux&#xA;kernel, we have to implement the HashSet trait and implementation ourselves.&lt;/p&gt;&#xA;&lt;p&gt;I am aware of the fact that it would have been much easier to replace the HashSet&#xA;with a Vector of size 64 and iterate over it. But I wanted to modify the&#xA;original code as little as possible.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Porting a userspace program to Kernel space</title>
+      <link>http://localhost:1313/post/2024/08/09/porting-a-userspace-program-to-kernel-space/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/08/09/porting-a-userspace-program-to-kernel-space/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; style=&#34;float: left; padding-left: 0%&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_12.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;differences-between-kernel-and-userspace&#34;&gt;Differences between Kernel and Userspace&lt;/h1&gt;&#xA;&lt;p&gt;Porting a Rust program to the Linux Kernel is very similar to porting a Rust&#xA;program to an embedded device. Compared to the program you write on your desktop&#xA;computer, you cannot use the standard library (&lt;code&gt;std&lt;/code&gt;). Furthermore, embedded&#xA;systems and the Linux Kernel have special requirements for memory management.&#xA;Allocations in Kernel space must not fail, because this would lead to a kernel&#xA;panic, that makes the whole system crash. And we don&amp;rsquo;t want our operating system&#xA;to crash.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Out of tree Kernel module</title>
+      <link>http://localhost:1313/post/2024/07/06/out-of-tree-kernel-module/</link>
+      <pubDate>Sat, 06 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/07/06/out-of-tree-kernel-module/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_10.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;compiling-an-out-of-tree-rust-module&#34;&gt;Compiling an out of tree rust module&lt;/h1&gt;&#xA;&lt;p&gt;This chapter will be less Rust focused, and more an introduction on how to&#xA;compile Out-of-tree kernel modules in general. The examples were compiled with a&#xA;&lt;a href=&#34;https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git&#34;&gt;net-next&lt;/a&gt;&#xA;kernel based on &lt;code&gt;v6.8-rc1&lt;/code&gt;.&lt;/p&gt;&#xA;&lt;h2 id=&#34;module-code&#34;&gt;Module code&lt;/h2&gt;&#xA;&lt;p&gt;The easiest way to get started is to copy over a module to your directory, e.g.&#xA;copy over &lt;code&gt;samples/rust/rust_minimal.rs&lt;/code&gt; and try compiling it. You can read up&#xA;more information about modules in Rust in the blog entry &lt;a href=&#34;../../../02/06/porting-my-first-phy-driver/&#34;&gt;Porting my first phy driver&lt;/a&gt; or look at the &lt;a href=&#34;https://github.com/Rust-for-Linux/linux/compare/rust-next...chrysh:Rust-for-Linux:rockchip_driver_rust&#34;&gt;commits on github&lt;/a&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Ioctls</title>
+      <link>http://localhost:1313/post/2024/04/02/ioctls/</link>
+      <pubDate>Tue, 02 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/04/02/ioctls/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_9.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;inputoutput-controls&#34;&gt;Input/Output Controls&lt;/h1&gt;&#xA;&lt;p&gt;In computing, ioctl calls (input/output calls) are special function calls used&#xA;for operations that can not be done with regular file operations like read,&#xA;write, etc. They provide a general-purpose interface for sending control codes&#xA;to devices, set parameters, etc.&lt;/p&gt;&#xA;&lt;p&gt;The calls are a type of system call. But while system calls like open, read,&#xA;write, etc can be applied to all files, ioctls perform device specific&#xA;configurations. For example, they can be used to set the baudrate of a serial&#xA;driver, set the interface and network mask for network drivers, or reserve space&#xA;for a file for file system drivers.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Locks and synchronization</title>
+      <link>http://localhost:1313/post/2024/03/10/locks-and-synchronization/</link>
+      <pubDate>Sun, 10 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/03/10/locks-and-synchronization/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_8.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;synchronization&#34;&gt;Synchronization&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://lwn.net/Articles/863459/&#34;&gt;This LWN article&lt;/a&gt; was an attempt to give a&#xA;side by side code comparison of how the same GPIO driver looks like&#xA;written in C and Rust. Even though the synchronization code that ended up in the&#xA;Linux Kernel is different from what we see there, it gives a good overview of&#xA;how a driver using locking primitives could look like. For this blog post, we&#xA;will focus on the locking and synchronization mechanisms used by C and Rust,&#xA;that can be found in the latest Linux kernels.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Results and Errors</title>
+      <link>http://localhost:1313/post/2024/03/09/results-and-errors/</link>
+      <pubDate>Sat, 09 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/03/09/results-and-errors/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_7.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;rusty-error-handling&#34;&gt;Rusty error handling&lt;/h1&gt;&#xA;&lt;p&gt;In C, it is common that functions return a integer indicating the success or&#xA;failure of the function execution. Extra data can only be modified or returned&#xA;through non-&lt;code&gt;const&lt;/code&gt; pointer parameters. Rust on the other hand uses explicit&#xA;error types.  The Result type encapsulates error and success.  In the context of&#xA;Rust code in the Linux Kernel, functions that would return an error code in C&#xA;would return a &lt;code&gt;core::result::Result&lt;/code&gt; with &lt;code&gt;Error&lt;/code&gt; as its error type instead. In&#xA;the following subsections, we will mainly look at the file&#xA;&lt;code&gt;rust/kernel/error.rs&lt;/code&gt;, and see how it interacts with the kernel error handling.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Allocators</title>
+      <link>http://localhost:1313/post/2024/02/25/allocators/</link>
+      <pubDate>Sun, 25 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/02/25/allocators/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_6.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;user-land&#34;&gt;User Land&lt;/h1&gt;&#xA;&lt;h2 id=&#34;when-is-it-used&#34;&gt;When is it used?&lt;/h2&gt;&#xA;&lt;p&gt;In user land, the programmer typically does not explicitly call an allocator.&#xA;Instead, whenever you use types like &lt;code&gt;Box&lt;/code&gt;, &lt;code&gt;Vec&lt;/code&gt; or &lt;code&gt;String&lt;/code&gt;, in the &lt;strong&gt;background&lt;/strong&gt;&#xA;the &lt;strong&gt;global allocator&lt;/strong&gt; is used to allocate and free memory. This global allocator&#xA;is part of the Rust standard library &lt;code&gt;std&lt;/code&gt;. Therefore, in order to define your&#xA;own allocator, you have to import the GlobalAlloc trait and implement it:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>C vs Rust - In the Linux Kernel</title>
+      <link>http://localhost:1313/post/2024/02/23/c-vs-rust-in-the-linux-kernel/</link>
+      <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/02/23/c-vs-rust-in-the-linux-kernel/</guid>
+      <description>&lt;h1 id=&#34;-plus-&#34;&gt;+++ Plus +++&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_5.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;memory-bugs-and-concurrency&#34;&gt;Memory bugs and Concurrency&lt;/h2&gt;&#xA;&lt;p&gt;Let&amp;rsquo;s get the obvious out of the way: With Rust, you will inherently write safer&#xA;code, because the compiler will complain until you do. &lt;strong&gt;Whole error classes&lt;/strong&gt;&#xA;will become less common when Rust programs are widely used:&#xA;&lt;strong&gt;Buffer-Overflows&lt;/strong&gt;, many types of &lt;strong&gt;Memory-Leaks, Race conditions&lt;/strong&gt; are made&#xA;impossible, because the compiler will force you to have only multiple readers&#xA;for shared data &lt;strong&gt;OR&lt;/strong&gt; one writer at a time for mutable data. Well, unless you&#xA;wrap all your code in &lt;code&gt;unsafe&lt;/code&gt; blocks, which bypasses some of the compiler&#xA;checks. Furthermore, using cyclic data structures can also lead to memory leaks&#xA;because they always have a reference count &amp;gt; 1 and can therefore not be cleaned&#xA;up.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Getting involved</title>
+      <link>http://localhost:1313/post/2024/02/17/getting-involved/</link>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/02/17/getting-involved/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_4.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;rust-for-linux&#34;&gt;Rust for Linux&lt;/h1&gt;&#xA;&lt;p&gt;The best starting place is probably the web page of the project,&#xA;&lt;a href=&#34;https://rust-for-linux.com&#34;&gt;rust-for-linux.com&lt;/a&gt;. This page is meant as a hub of&#xA;links, documentations and resources to this topic.  One source that does not&#xA;seem to work well is the github &lt;a href=&#34;https://github.com/Rust-for-Linux/linux/contribute&#34;&gt;Good first&#xA;issues&lt;/a&gt; page, which&#xA;currently is not up to date, and all good first issues are already done or in&#xA;progress by somebody.  On the other hand, the Rust-for-Linux &lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;github&#xA;repo&lt;/a&gt; is still in use and commits are pushed&#xA;to it on a regular basis.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Porting my first phy driver</title>
+      <link>http://localhost:1313/post/2024/02/06/porting-my-first-phy-driver/</link>
+      <pubDate>Tue, 06 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/02/06/porting-my-first-phy-driver/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_2.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;why-the-phy&#34;&gt;Why the phy?&lt;/h1&gt;&#xA;&lt;p&gt;I saw that &lt;strong&gt;Fujita Tomonori&lt;/strong&gt; had added the &lt;strong&gt;Rust version&lt;/strong&gt; of the ax88796b&#xA;phy driver for the  Asix PHY, which looked very similar to the C version of this&#xA;driver (compare&#xA;&lt;a href=&#34;https://elixir.bootlin.com/linux/v6.8-rc3/source/drivers/net/phy/ax88796b_rust.rs&#34;&gt;ax88796b_rust.rs&lt;/a&gt;&#xA;vs&#xA;&lt;a href=&#34;https://elixir.bootlin.com/linux/v6.8-rc3/source/drivers/net/phy/ax88796b.c&#34;&gt;ax88796b.c&lt;/a&gt;).&#xA;This driver is meant as a reference driver for further phy drivers. The&#xA;&lt;a href=&#34;https://elixir.bootlin.com/linux/v6.8-rc3/source/rust/kernel/net/phy.rs&#34;&gt;phy.rs&lt;/a&gt;&#xA;file uses binding to &lt;code&gt;struct phy_device&lt;/code&gt; and to pass through C function calls to&#xA;phy driver functions.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Creating C bindings</title>
+      <link>http://localhost:1313/post/2024/02/02/creating-c-bindings/</link>
+      <pubDate>Fri, 02 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/02/02/creating-c-bindings/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_3.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;what-are-bindings&#34;&gt;What are bindings?&lt;/h1&gt;&#xA;&lt;p&gt;Bindings are ways to create an interface between two programming languages,&#xA;which allow code written in one language to call from code in another language.&#xA;In the case of Rust in the Linux kernel code, &lt;strong&gt;Rust FFI (Foreign Function&#xA;Interface)&lt;/strong&gt; bindings are used to call C functions, conforming to the C calling&#xA;convention.  This means that arguments are placed on the stack or in registers,&#xA;as the C function is expecting to find them there, and cleans up after the&#xA;function call. Furthermore, the FFI takes care of converting data types between&#xA;the two languages and handles memory management.  The calling conventions are&#xA;dependent on the architecture used (arm, arm64, riscv, x86,..), because each&#xA;architecture has a different &lt;strong&gt;calling convention&lt;/strong&gt; and expects the argument in&#xA;different places (the stack, registers, etc). And even between different&#xA;compilers or compiler versions, the calling conventions can differ! The bindings&#xA;abstract away those differences.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Getting Started</title>
+      <link>http://localhost:1313/post/2024/01/31/getting-started/</link>
+      <pubDate>Wed, 31 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/01/31/getting-started/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_1.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;check-out-code&#34;&gt;Check out code&lt;/h1&gt;&#xA;&lt;p&gt;I recommend checking out the &lt;a href=&#34;https://github.com/Rust-for-Linux&#34;&gt;Rust-for-Linux kernel&lt;/a&gt; to play around with, because it has many more sample modules than the mainline kernel. Even though the interfaces are probably not stable, you can get an idea where development is headed.&lt;/p&gt;&#xA;&lt;h1 id=&#34;get-your-tools-ready&#34;&gt;Get your tools ready&lt;/h1&gt;&#xA;&lt;p&gt;After checking out, you should follow the instructions in&#xA;&lt;code&gt;Documentation/rust/quick-start.rst&lt;/code&gt; for setting up your tools. I had more luck&#xA;using rustup to get the versions of bindgen and rustc compatible with the kernel&#xA;than using my distributions aptitude command. There is a nifty little script&#xA;called &lt;code&gt;rust_is_available.sh&lt;/code&gt; which will tell you whether your setup works for&#xA;compiling a Rust kernel.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

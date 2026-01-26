@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Hashset | Linux kernel programming blog</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/static/css/custom.css" />
+<meta name="google-site-verification" content="m3n6pzMcloBT3cd6VuLuPT6UnxIO7wfNvpd59oC6S14"/>
+
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/post/">Posts</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/workshops/">Workshops</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Hashset</span></h1>
+
+<h2 class="date">2024/08/09</h2>
+</div>
+
+<main>
+<p><a href="https://github.com/Rust-for-Linux/"><img class="penguin" src="/static/img/rusty_penguin_11.jpeg" alt="Rusty penguin. Created by DALL·E 3." /></a></p>
+<h1 id="why-reinventing-hashset">Why reinventing HashSet?</h1>
+<p>This article will focus on adding a Hashset to the
+<a href="https://github.com/chrysh/quarto_rs/tree/add_hashset">quarto_rs</a>. As previously
+discussed, because we cannot use the Rust stdlib when writing code for the Linux
+kernel, we have to implement the HashSet trait and implementation ourselves.</p>
+<p>I am aware of the fact that it would have been much easier to replace the HashSet
+with a Vector of size 64 and iterate over it. But I wanted to modify the
+original code as little as possible.</p>
+<h2 id="what-is-a-hashset">What is a HashSet?</h2>
+<p>A HashSet is a data structure, that allows you to store and retrieve data using
+hashes. A hashing algorithm converts your data into a chunk of fixed size called
+hash, which is then used for indexing your data in the HashSet. For example,
+your image of size 4 KB can be reduced to a 16 Byte hash value, which then
+serves as the index for the hashtable the next time you want to find out whether
+this element is already in the HashSet.
+Compared to other data structures like lists or Arrays, a HashSet generally uses
+less memory space, which becomes especially relevant for bigger array sizes than
+what we are dealing with here.</p>
+<p>For more information on HashSets, check out the <a href="https://doc.rust-lang.org/std/collections/struct.HashSet.html">Rust
+documentation</a>.</p>
+<h2 id="hashset-and-hasher">HashSet and Hasher</h2>
+<p>A HashSet can support any <code>hasher H</code> in order to assign data to
+each bucket, as long as it implements the trait <code>Hasher</code>. This trait implements
+two functions: <code>write</code> to add data bytes to be included in the hash, as well as
+the <code>finish</code> method, which returns the calculated hash. The <code>Hash</code> and <code>Hasher</code>
+traits are both defined in <code>core</code>.</p>
+<p>One easy algorithm to implement as a Hasher is DJB2, which we will use as our
+default hasher.</p>
+<pre><code>use core::hash::Hasher;
+
+#[derive(Debug, Clone, Copy)]
+pub struct DJB2Hasher {
+    hash: u32,
+}
+
+impl DJB2Hasher {
+    pub fn new() -&gt; DJB2Hasher {
+        DJB2Hasher { hash: 5381 }
+    }
+}
+
+impl Hasher for DJB2Hasher {
+    fn finish(&amp;self) -&gt; u64 {
+        self.hash as u64
+    }
+
+    fn write(&amp;mut self, bytes: &amp;[u8]) {
+        for &amp;byte in bytes {
+            self.hash = ((self.hash &lt;&lt; 5).wrapping_add(self.hash)).wrapping_add(byte as u32);
+        }
+    }
+}
+</code></pre>
+<h2 id="hashset-trait">HashSet trait</h2>
+<p>Our HashSet implementation has <code>capacity</code> number of buckets, that can be filled
+with <code>Some(T)</code> or be empty, marked by <code>None</code>. At each moment, there are <code>size</code>
+number of filled buckets. By default, DJB2Hasher is used. But the user also has
+the possibility to use any other Hasher.</p>
+<pre><code>#[derive(Debug, Clone)]
+pub struct HashSet&lt;T, H = DJB2Hasher&gt;
+    where T: Clone
+{
+    buckets: VecExtra&lt;Option&lt;T&gt;&gt;,
+    capacity: usize,
+    size: usize,
+    hasher: H,
+}
+</code></pre>
+<p>The functions that HashSet implements are based on the stdlib HashSet trait,
+many of which allow you to compare two HashSets for overlaps or differences in
+content.</p>
+<pre><code>    // Constructors
+    pub fn with_capacity(capacity: usize) -&gt; Self {}
+    pub fn with_hasher_and_capacity(hasher: H, capacity: usize) -&gt; Self {}
+
+    // Helper functions
+    fn calculate_index(&amp;mut self, item: &amp;T) -&gt; usize {}
+    fn resize(&amp;mut self) {}
+
+    // HashSet functions
+    pub fn hash(&amp;mut self, item: &amp;T) -&gt; u64 {}
+    pub fn len(&amp;mut self) -&gt; usize {}
+    pub fn insert(&amp;mut self, item: T) {}
+    pub fn contains(&amp;mut self, item: &amp;T) -&gt; bool {}
+    pub fn remove(&amp;mut self, item: &amp;T) {}
+    pub fn is_empty(&amp;mut self) -&gt; bool {}
+    pub fn difference(&amp;mut self, other: &amp;mut HashSet&lt;T, H&gt;) -&gt; VecExtra&lt;T&gt; {}
+    pub fn union(&amp;mut self, other: &amp;mut HashSet&lt;T, H&gt;) -&gt; VecExtra&lt;T&gt; {}
+    pub fn intersection(&amp;mut self, other: &amp;mut HashSet&lt;T, H&gt;) -&gt; VecExtra&lt;T&gt; {}
+    pub fn symmetric_difference(&amp;mut self, other: &amp;mut HashSet&lt;T, H&gt;) -&gt; VecExtra&lt;T&gt; {}
+    pub fn drain(&amp;mut self) {}
+</code></pre>
+<h2 id="hashsetiter">HashSetIter</h2>
+<p>Now we want be able to iterate over the elements of the HashSet, for example
+for using the <code>collect</code> function to transform HashSet from and to a vector
+array, or to iterate over and print each element. In order for this to work, we
+need to implement the IntoIterator trait for HashSet, which will return the
+Iterator HashSetIter. This Iterator records the most recent index <code>current_pos</code>
+that was returned, so that on each call to <code>next</code> the next element in HashSet is
+returned. Since we are working with mutable references, we need to specify the
+lifetime <code>a</code> of the elements in HashSet.</p>
+<pre><code>pub struct HashSetIter&lt;'a, T&gt;
+where T: Clone
+{
+    hashset: &amp;'a HashSet&lt;T&gt;,
+    current_pos: usize,
+}
+
+impl&lt;'a, T: Clone&gt; Iterator for HashSetIter&lt;'a, T&gt; {
+    type Item = &amp;'a T;
+    fn next(&amp;mut self) -&gt; Option&lt;Self::Item&gt; {}
+}
+</code></pre>
+<h2 id="collect-into-hashset"><code>collect()</code> into HashSet</h2>
+<p>Now we want to be able to create a HashSet from a vector, as shown in the next
+example:</p>
+<pre><code>let remaining_pieces_vec = vec![ 1 ,2, 4 ];
+  let remaining_pieces = remaining_pieces_vec
+     .iter()
+     .copied()
+     .collect::&lt;HashSet&lt;_&gt;&gt;();
+</code></pre>
+<p>In Rust, if you want to use <code>collect()</code>  with a type, it needs to implement the
+IntoIterator trait. For example, our example of a HashSet uses VecExtra as a
+container for the elements. Therefore, the VecExtra type must implement
+IntoIter.</p>
+<p>Furthermore, for each &ldquo;flavor&rdquo; or way of accessing a type, you need to implement
+the trait, and therefore the function <code>into_iter</code>.</p>
+<p>Since our type <code>VecExtra</code> is based on the <code>Vec</code> type, and <code>VecExtra</code> takes <code>Vec</code>
+as its sole argument, we can use the <code>Item</code> and <code>IntoIter</code> types that <code>Vec</code> uses
+directly.</p>
+<pre><code>// Implement IntoIterator for VecExtra&lt;T&gt;
+impl&lt;T&gt; IntoIterator for VecExtra&lt;T&gt; {
+    type Item = &lt;Vec&lt;T&gt; as IntoIterator&gt;::Item;
+    type IntoIter = &lt;Vec&lt;T&gt; as IntoIterator&gt;::IntoIter;
+
+    fn into_iter(self) -&gt; Self::IntoIter {
+        self.0.into_iter()
+    }
+}
+</code></pre>
+<p>Let&rsquo;s extend our excursion into Iterators a bit more. In order to implement the
+<code>IntoIterator</code> trait, you must define the type of <code>Item</code> and <code>IntoIter</code>. The
+<code>type Item = ..</code> part represents the type of elements that iterator will yield.</p>
+<p>Since in Rust, traits can be implemented not only for types, but also for
+mutable and immutable references to types, we must also implement the
+<code>IntoIterator</code> trait for <code>&amp;VecExtra&lt;T&gt;</code> and <code> &amp;mut VecExtra&lt;T&gt;</code>. While the
+implementation for <code>Vec&lt;T&gt;</code> takes ownership of the vector and yields its
+elements by value, the implementation for <code>&amp;Vec&lt;T&gt;</code> does not take ownership and
+yields references to the elements of the vector.</p>
+<p>And as before, we need to add <code>'a</code> as the lifetime specifier to explicitly
+indicate that our code does not use data that has been deallocated.</p>
+<pre><code>// Implement IntoIterator for &amp;VecExtra&lt;T&gt;
+impl&lt;'a, T&gt; IntoIterator for &amp;'a VecExtra&lt;T&gt; {
+    type Item = &lt;&amp;'a Vec&lt;T&gt; as IntoIterator&gt;::Item;
+    type IntoIter = &lt;&amp;'a Vec&lt;T&gt; as IntoIterator&gt;::IntoIter;
+
+    fn into_iter(self) -&gt; Self::IntoIter {
+        self.0.iter()
+    }
+}
+
+// Implement IntoIterator for &amp;mut VecExtra&lt;T&gt;
+impl&lt;'a, T&gt; IntoIterator for &amp;'a mut VecExtra&lt;T&gt; {
+    type Item = &lt;&amp;'a mut Vec&lt;T&gt; as IntoIterator&gt;::Item;
+    type IntoIter = &lt;&amp;'a mut Vec&lt;T&gt; as IntoIterator&gt;::IntoIter;
+
+    fn into_iter(self) -&gt; Self::IntoIter {
+        self.0.iter_mut()
+    }
+}
+</code></pre>
+<p>To put it into a nutshell, the implementation of the trait <code>IntoIterator</code>
+describes how to iterator over datatype. Therefore, <code>into_iter</code> will return the
+next element of <code>T</code>, <code>&amp;T</code> or <code>&amp;mut T</code>, depending on the exact context, making it
+compatible with functions like <code>collect()</code> that require the <code>IntoIterator</code> trait.</p>
+<p>As always, feel free to check out the HashSet implementation in the <a href="https://github.com/chrysh/quarto_rs/tree/add_hashset">add_hashset
+branch</a> on github.</p>
+
+</main>
+
+  <footer>
+  
+  
+  <hr/>
+  © <a href="https://chrysh.github.io">Christina Quast</a> 2024 &ndash; 2026 | <a href="https://github.com/chrysh">Github</a>
+  
+  </footer>
+  </body>
+</html>
+

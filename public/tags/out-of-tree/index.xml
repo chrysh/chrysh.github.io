@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Out of Tree on Linux kernel programming blog</title>
+    <link>http://localhost:1313/tags/out-of-tree/</link>
+    <description>Recent content in Out of Tree on Linux kernel programming blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 06 Jul 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/out-of-tree/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Out of tree Kernel module</title>
+      <link>http://localhost:1313/post/2024/07/06/out-of-tree-kernel-module/</link>
+      <pubDate>Sat, 06 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/07/06/out-of-tree-kernel-module/</guid>
+      <description>Compiling an out of tree rust module This chapter will be less Rust focused, and more an introduction on how to compile Out-of-tree kernel modules in general.&#xA;Module code The easiest way to get started is to copy over a module to your directory, e.g. copy over samples/rust/rust_minimal.rs and try compiling it. You can read up more information about modules in Rust in the blog entry [Porting my first phy driver] (.</description>
+    </item>
+  </channel>
+</rss>

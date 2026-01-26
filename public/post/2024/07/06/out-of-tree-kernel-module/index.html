@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Out of tree Kernel module | Linux kernel programming blog</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/static/css/custom.css" />
+<meta name="google-site-verification" content="m3n6pzMcloBT3cd6VuLuPT6UnxIO7wfNvpd59oC6S14"/>
+
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/post/">Posts</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/workshops/">Workshops</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Out of tree Kernel module</span></h1>
+
+<h2 class="date">2024/07/06</h2>
+</div>
+
+<main>
+<p><a href="https://github.com/Rust-for-Linux/"><img class="penguin" src="/static/img/rusty_penguin_10.jpeg" alt="Rusty penguin. Created by DALL·E 3." /></a></p>
+<h1 id="compiling-an-out-of-tree-rust-module">Compiling an out of tree rust module</h1>
+<p>This chapter will be less Rust focused, and more an introduction on how to
+compile Out-of-tree kernel modules in general. The examples were compiled with a
+<a href="https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git">net-next</a>
+kernel based on <code>v6.8-rc1</code>.</p>
+<h2 id="module-code">Module code</h2>
+<p>The easiest way to get started is to copy over a module to your directory, e.g.
+copy over <code>samples/rust/rust_minimal.rs</code> and try compiling it. You can read up
+more information about modules in Rust in the blog entry <a href="../../../02/06/porting-my-first-phy-driver/">Porting my first phy driver</a> or look at the <a href="https://github.com/Rust-for-Linux/linux/compare/rust-next...chrysh:Rust-for-Linux:rockchip_driver_rust">commits on github</a>.</p>
+<h2 id="rust-available">Rust available?</h2>
+<p>The second test is to make sure that Rust is available for your compilation:</p>
+<pre><code>export PATH=&quot;$HOME/.cargo/bin:$PATH&quot;
+export LIBCLANG_PATH=/usr/lib/llvm-16/lib
+export LLVM=1
+
+$ KSRC=~/code/kernel/net-next
+$ make -C $KSRC rustavailable
+
+make: Entering directory '~/code/kernel/net-next'
+Rust is available!
+make: Leaving directory '~/code/kernel/net-next'
+</code></pre>
+<p>If it does not show up, make sure to check out the blog entry on <a href="../../../01/31/getting-started/">Getting
+started</a>.</p>
+<p>Now, you can compile your external Out-of-tree module with the following
+command:</p>
+<pre><code>$ make -C $KSRC M=$(pwd) rustavailable
+</code></pre>
+<h2 id="makefile">Makefile</h2>
+<p>Now, to make you life easier, the next step is creating a Makefile.</p>
+<pre><code>chrysh@bentobox ~/code/rust/quarto_rs/src (git)-[main] % cat Makefile
+# SPDX-License-Identifier: GPL-2.0
+
+# obj-$(CONFIG_SAMPLE_RUST_QUARTO)		+= rust_quarto.o
+obj-m += rust_quarto.o
+KERNEL_SRC := ~/code/kernel/net-next
+SRC := $(shell pwd)
+
+all:
+	$(MAKE) -C $(KERNEL_SRC) M=$(SRC) modules
+
+modules_install:
+	$(MAKE) -C $(KERNEL_SRC) M=$(SRC) modules_install
+</code></pre>
+<p>Don&rsquo;t forget to check out a few environment variables before you compile:</p>
+<pre><code>$ export PATH=&quot;$(HOME)/.cargo/bin:$(PATH)&quot;
+$ export LIBCLANG_PATH=/usr/lib/llvm-16/lib
+$ export LLVM=1
+</code></pre>
+<p>Now, when you enter <code>make</code>, you module gets compiled</p>
+<pre><code>% make
+make -C ~/code/kernel/net-next M=/home/chrysh/code/rust/quarto_rs/src modules
+make[1]: Entering directory '/home/chrysh/code/kernel/net-next'
+  RUSTC [M] /home/chrysh/code/rust/quarto_rs/src/rust_quarto.o
+  MODPOST /home/chrysh/code/rust/quarto_rs/src/Module.symvers
+  LD [M]  /home/chrysh/code/rust/quarto_rs/src/rust_quarto.ko
+make[1]: Leaving directory '/home/chrysh/code/kernel/net-next'
+</code></pre>
+<h2 id="references">References</h2>
+<p>You can find this code in the branch <a href="https://github.com/chrysh/quarto_rs/tree/out_of_tree">out_of_tree</a> on github.</p>
+
+</main>
+
+  <footer>
+  
+  
+  <hr/>
+  © <a href="https://chrysh.github.io">Christina Quast</a> 2024 &ndash; 2026 | <a href="https://github.com/chrysh">Github</a>
+  
+  </footer>
+  </body>
+</html>
+

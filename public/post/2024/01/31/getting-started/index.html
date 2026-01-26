@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Getting Started | Linux kernel programming blog</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/static/css/custom.css" />
+<meta name="google-site-verification" content="m3n6pzMcloBT3cd6VuLuPT6UnxIO7wfNvpd59oC6S14"/>
+
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/post/">Posts</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/workshops/">Workshops</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Getting Started</span></h1>
+
+<h2 class="date">2024/01/31</h2>
+</div>
+
+<main>
+<p><a href="https://github.com/Rust-for-Linux/"><img class="penguin" src="/static/img/rusty_penguin_1.jpeg" alt="Rusty penguin. Created by DALL·E 3." /></a></p>
+<h1 id="check-out-code">Check out code</h1>
+<p>I recommend checking out the <a href="https://github.com/Rust-for-Linux">Rust-for-Linux kernel</a> to play around with, because it has many more sample modules than the mainline kernel. Even though the interfaces are probably not stable, you can get an idea where development is headed.</p>
+<h1 id="get-your-tools-ready">Get your tools ready</h1>
+<p>After checking out, you should follow the instructions in
+<code>Documentation/rust/quick-start.rst</code> for setting up your tools. I had more luck
+using rustup to get the versions of bindgen and rustc compatible with the kernel
+than using my distributions aptitude command. There is a nifty little script
+called <code>rust_is_available.sh</code> which will tell you whether your setup works for
+compiling a Rust kernel.</p>
+<p>In the end, after following the instructions from the quick start guide, I had
+to set a few environment variables myself to make it work:</p>
+<pre><code>$ export BINDGEN=`which bindgen`
+$ export RUSTC=`which rustc`
+$ export CC=clang
+$ export PATH=&quot;$HOME/.cargo/bin:$PATH&quot;
+$ export LIBCLANG_PATH=/usr/lib/llvm-16/lib
+$ export LLVM=1
+$ ./scripts/rust_is_available.sh
+</code></pre>
+<p>Or here as a oneliner:</p>
+<pre><code># oneline:
+BINDGEN=`which bindgen` RUSTC=`which rustc` CC=clang PATH=&quot;$HOME/.cargo/bin:$PATH&quot; LIBCLANG_PATH=/usr/lib/llvm-16/lib LLVM=1 ./scripts/rust_is_available.sh
+</code></pre>
+<h1 id="enable-rust-in-config">Enable Rust in config</h1>
+<p>Every kernel you want to compile needs a .config file where the options you want
+to enable for your kernel are specified. After creating an initial .config from
+an existing defconfig, you can use <code>make menuconfig</code> to enable Rust. Menuconfig
+allows you to search for options using &ldquo;/&rdquo;, see the dependencies of those
+options and directly go to the place where you can activate them using the
+numbers which are written left of the option description.</p>
+<pre><code># somehow/somewhere get a minimal config where serial, ext4, etc are activated
+# or just use a defconfig with make x86_64_defconfig
+
+$ make  LLVM=1 menuconfig
+</code></pre>
+<h1 id="compile-examples">Compile examples</h1>
+<p>After activating for example <code>SAMPLE_RUST_PRINT</code>, you can compile the kernel
+using <code>make</code> and the modules using <code>make modules</code>. At this point, you can play
+around with the file <code>samples/rust/rust_print.rs</code> and see what other Rust
+functions you can add.</p>
+<p>To compile out of tree modules, you need to pass the kernel directory to the make command.</p>
+<pre><code>KDIR=~/code/kernel/Rust-for-Linux make
+</code></pre>
+<h1 id="load-examples">Load examples</h1>
+<p>Now you can boot your kernel in qemu and load and unload your modules using
+<code>insmod/rmmod</code>.</p>
+<pre><code>devbox# insmod ./samples/rust/rust_print.ko
+rust_print: Rust printing macros sample (init)
+rust_print: Emergency message (level 0) without args
+rust_print: Alert message (level 1) without args
+rust_print: Critical message (level 2) without args
+rust_print: Error message (level 3) without args
+rust_print: Warning message (level 4) without args
+rust_print: Notice message (level 5) without args
+rust_print: Info message (level 6) without args
+rust_print: A line that is continued without args
+rust_print: Emergency message (level 0) with args
+rust_print: Alert message (level 1) with args
+rust_print: Critical message (level 2) with args
+rust_print: Error message (level 3) with args
+rust_print: Warning message (level 4) with args
+rust_print: Notice message (level 5) with args
+rust_print: Info message (level 6) with args
+rust_print: A line that is continued with args
+</code></pre>
+<pre><code>devbox# rmmod rust_print.ko
+rust_print: Rust printing macros sample (exit)
+</code></pre>
+
+</main>
+
+  <footer>
+  
+  
+  <hr/>
+  © <a href="https://chrysh.github.io">Christina Quast</a> 2024 &ndash; 2026 | <a href="https://github.com/chrysh">Github</a>
+  
+  </footer>
+  </body>
+</html>
+

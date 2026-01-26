@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on Linux kernel programming blog</title>
+    <link>http://localhost:1313/categories/</link>
+    <description>Recent content in Categories on Linux kernel programming blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 09 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C</title>
+      <link>http://localhost:1313/categories/c/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/c/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kernel Driver</title>
+      <link>http://localhost:1313/categories/kernel-driver/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/kernel-driver/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux Kernel</title>
+      <link>http://localhost:1313/categories/linux-kernel/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/linux-kernel/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust</title>
+      <link>http://localhost:1313/categories/rust/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/rust/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Userspace</title>
+      <link>http://localhost:1313/categories/userspace/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/userspace/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Allocators</title>
+      <link>http://localhost:1313/categories/allocators/</link>
+      <pubDate>Sun, 25 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/allocators/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Community</title>
+      <link>http://localhost:1313/categories/community/</link>
+      <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/community/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Net-Next</title>
+      <link>http://localhost:1313/categories/net-next/</link>
+      <pubDate>Tue, 06 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/net-next/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>C Bindings</title>
+      <link>http://localhost:1313/categories/c-bindings/</link>
+      <pubDate>Fri, 02 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/categories/c-bindings/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

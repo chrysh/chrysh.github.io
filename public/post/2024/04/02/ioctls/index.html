@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Ioctls | Linux kernel programming blog</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/static/css/custom.css" />
+<meta name="google-site-verification" content="m3n6pzMcloBT3cd6VuLuPT6UnxIO7wfNvpd59oC6S14"/>
+
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/post/">Posts</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/workshops/">Workshops</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Ioctls</span></h1>
+
+<h2 class="date">2024/04/02</h2>
+</div>
+
+<main>
+<p><a href="https://github.com/Rust-for-Linux/"><img class="penguin" src="/static/img/rusty_penguin_9.jpeg" alt="Rusty penguin. Created by DALL·E 3." /></a></p>
+<h1 id="inputoutput-controls">Input/Output Controls</h1>
+<p>In computing, ioctl calls (input/output calls) are special function calls used
+for operations that can not be done with regular file operations like read,
+write, etc. They provide a general-purpose interface for sending control codes
+to devices, set parameters, etc.</p>
+<p>The calls are a type of system call. But while system calls like open, read,
+write, etc can be applied to all files, ioctls perform device specific
+configurations. For example, they can be used to set the baudrate of a serial
+driver, set the interface and network mask for network drivers, or reserve space
+for a file for file system drivers.</p>
+<p>The ioctl numbers, which are part of the UAPI (User API), can be found in
+various header files. General ioctl numbers are located in the header file
+<code>include/uapi/asm-generic/ioctl.h</code>, network-related ioctl numbers in
+<code>include/uapi/linux/sockios.h</code>, and file system related numbers are in
+<code>include/uapi/linux/fs.h</code>.</p>
+<p>The ioctl numbers are generated using a macro that takes several parameters: the
+direction (read or write), a character that defines the type of the call, the
+ioctl number itself, and the size of the data. This macro generates a unique
+identifier for each ioctl command.</p>
+<pre><code>#define _IOC(dir,type,nr,size) \
+	(((dir)  &lt;&lt; _IOC_DIRSHIFT) | \
+	 ((type) &lt;&lt; _IOC_TYPESHIFT) | \
+	 ((nr)   &lt;&lt; _IOC_NRSHIFT) | \
+	 ((size) &lt;&lt; _IOC_SIZESHIFT))
+</code></pre>
+<p>See for example the usage of this define in <code>include/uapi/linux/usbdevice_fs.h</code>.</p>
+<pre><code>#define USBDEVFS_CONNINFO_EX(len)  _IOC(_IOC_READ, 'U', 32, len)
+</code></pre>
+<p>The equivalent implementation in rust can be found in the file
+<code>rust/kernel/ioctl.rs</code>.</p>
+<pre><code>#[inline(always)]
+const fn _IOC(dir: u32, ty: u32, nr: u32, size: usize) -&gt; u32 {
+    build_assert!(dir &lt;= uapi::_IOC_DIRMASK);
+    build_assert!(ty &lt;= uapi::_IOC_TYPEMASK);
+    build_assert!(nr &lt;= uapi::_IOC_NRMASK);
+    build_assert!(size &lt;= (uapi::_IOC_SIZEMASK as usize));
+
+    (dir &lt;&lt; uapi::_IOC_DIRSHIFT)
+        | (ty &lt;&lt; uapi::_IOC_TYPESHIFT)
+        | (nr &lt;&lt; uapi::_IOC_NRSHIFT)
+        | ((size as u32) &lt;&lt; uapi::_IOC_SIZESHIFT)
+}
+</code></pre>
+<p>These identifiers are then used in switch-case statements to handle
+device-specific commands. The <code>bindgen</code> tool in Rust generates pub const numbers
+from these identifiers, allowing them to be used in a type-safe way in Rust
+code.</p>
+<p>For example, the <code>SIOCSIFNETMASK</code> ioctl number is defined in the
+<code>include/uapi/linux/sockios.h</code> file and is represented in Rust as <code>pub const SIOCSIFNETMASK: u32 = 35100;</code> in the <code>rust/uapi/uapi_generated.rs</code> and
+<code>rust/bindings/bindings_generated.rs</code> files.</p>
+<pre><code>#define SIOCSIFNETMASK	0x891c		/* set network PA mask		*/
+</code></pre>
+<p>The <code>_IOC</code> function in Rust takes four arguments, three of which are of type u32
+and one of usize, and returns an u32 value. What follows is the <code>build_assert!</code>
+Rust macro, which enforces at compile time that the arguments passed to this
+function do not surpass the maximum values. Furthermore, because all arguments
+that are passed have types, the compiler can secure type safety of the function
+arguments, while in the C macro, any value is accepted, which can lead to very
+subtle errors. Lastly, the unique ioctl number is calculated in the same way it
+is calculated in C, and the <code>_IOC</code> function returns this number.</p>
+<p>The C header file <code>include/uapi/asm-generic/ioctl.h</code> provides also a way to
+decode the ioctl numbers.</p>
+<pre><code>/* used to decode ioctl numbers.. */
+#define _IOC_DIR(nr)		(((nr) &gt;&gt; _IOC_DIRSHIFT) &amp; _IOC_DIRMASK)
+#define _IOC_TYPE(nr)		(((nr) &gt;&gt; _IOC_TYPESHIFT) &amp; _IOC_TYPEMASK)
+#define _IOC_NR(nr)			(((nr) &gt;&gt; _IOC_NRSHIFT) &amp; _IOC_NRMASK)
+#define _IOC_SIZE(nr)		(((nr) &gt;&gt; _IOC_SIZESHIFT) &amp; _IOC_SIZEMASK)
+</code></pre>
+<p>This same functionality is implemented in the Rust code as well, again located
+in the file <code>rust/kernel/ioctl.rs</code>.  Those defines are again transcoded in
+inherently type safe manner with functions instead of defines, which enforce a
+type check at compile time. Other code can use those constant functions to
+retrieve the data size with <code>_IOC_SIZE</code> or find out the direction (<code>_IOC_WRITE</code>
+or <code>_IOC_READ</code>), which can then be used in the functions treating the ioctl
+call.</p>
+<pre><code>/// Get the ioctl direction from an ioctl number.
+pub const fn _IOC_DIR(nr: u32) -&gt; u32 {
+    (nr &gt;&gt; uapi::_IOC_DIRSHIFT) &amp; uapi::_IOC_DIRMASK
+}
+
+/// Get the ioctl type from an ioctl number.
+pub const fn _IOC_TYPE(nr: u32) -&gt; u32 {
+    (nr &gt;&gt; uapi::_IOC_TYPESHIFT) &amp; uapi::_IOC_TYPEMASK
+}
+
+/// Get the ioctl number from an ioctl number.
+pub const fn _IOC_NR(nr: u32) -&gt; u32 {
+    (nr &gt;&gt; uapi::_IOC_NRSHIFT) &amp; uapi::_IOC_NRMASK
+}
+
+/// Get the ioctl size from an ioctl number.
+pub const fn _IOC_SIZE(nr: u32) -&gt; usize {
+    ((nr &gt;&gt; uapi::_IOC_SIZESHIFT) &amp; uapi::_IOC_SIZEMASK) as usize
+}
+</code></pre>
+<p>To put it into a nutshell, in Rust, the ioctl functionality is implemented in a
+type-safe manner using functions instead of macros. These functions enforce type
+checks at compile time, which can help prevent subtle bugs that might occur if
+any value were accepted.  This approach provides the benefits of type safety and
+compile-time checks, making the code more robust and easier to maintain.</p>
+
+</main>
+
+  <footer>
+  
+  
+  <hr/>
+  © <a href="https://chrysh.github.io">Christina Quast</a> 2024 &ndash; 2026 | <a href="https://github.com/chrysh">Github</a>
+  
+  </footer>
+  </body>
+</html>
+

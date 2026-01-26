@@ -1,0 +1,60 @@
+[] Build system in kernel, because cargo does not exist
+[] quarto port to kernel
+[] Compare performance and code size
+[] Err handling
+[] More on Memory Management?
+[] ioctl
+[] Semaphores/Mutexes/Synchronization
+[] Strings in kernel
+
+[] Titus corrections
+
+######################################################
+
+
+
+
+Let's look at the following code, that tries to open a file. This operation
+could fail.
+
+```
+use std::fs::File;
+
+fn open_file(path: &str) -> Result<File, std::io::Error> {
+    File::open(path)
+}
+```
+
+If the functions opened the file successfully, `Ok(file)` is returned. If it
+fails, `Error(io::Error)` is returned.
+
+
+When a function returns a pointer, and the operation fails, usually `NULL` is
+returned to signal an error. Rust uses `Option<T>` for that.
+The following function would return `Some(index)` if an item is found, and
+`None` otherwise:
+
+```
+TBD
+```
+
+The `?` operator than unwraps the `Ok` value.
+
+When you write `expression?`, the Rust compiler expands it into something like
+this:
+
+```
+match expression {
+    Ok(value) => value,
+    Err(err) => return Err(From::from(err)),
+}
+```
+
+```
+match expression {
+    Some(value) => value,
+    None => return None,
+}
+```
+
+

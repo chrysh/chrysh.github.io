@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cleanup on Linux kernel programming blog</title>
+    <link>http://localhost:1313/tags/cleanup/</link>
+    <description>Recent content in Cleanup on Linux kernel programming blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 23 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/cleanup/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C vs Rust - In the Linux Kernel</title>
+      <link>http://localhost:1313/post/2024/02/23/c-vs-rust-in-the-linux-kernel/</link>
+      <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/02/23/c-vs-rust-in-the-linux-kernel/</guid>
+      <description>&lt;h1 id=&#34;-plus-&#34;&gt;+++ Plus +++&lt;/h1&gt;&#xA;&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_5.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h2 id=&#34;memory-bugs-and-concurrency&#34;&gt;Memory bugs and Concurrency&lt;/h2&gt;&#xA;&lt;p&gt;Let&amp;rsquo;s get the obvious out of the way: With Rust, you will inherently write safer&#xA;code, because the compiler will complain until you do. &lt;strong&gt;Whole error classes&lt;/strong&gt;&#xA;will become less common when Rust programs are widely used:&#xA;&lt;strong&gt;Buffer-Overflows&lt;/strong&gt;, many types of &lt;strong&gt;Memory-Leaks, Race conditions&lt;/strong&gt; are made&#xA;impossible, because the compiler will force you to have only multiple readers&#xA;for shared data &lt;strong&gt;OR&lt;/strong&gt; one writer at a time for mutable data. Well, unless you&#xA;wrap all your code in &lt;code&gt;unsafe&lt;/code&gt; blocks, which bypasses some of the compiler&#xA;checks. Furthermore, using cyclic data structures can also lead to memory leaks&#xA;because they always have a reference count &amp;gt; 1 and can therefore not be cleaned&#xA;up.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

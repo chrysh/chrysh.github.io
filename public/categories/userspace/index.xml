@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Userspace on Linux kernel programming blog</title>
+    <link>http://localhost:1313/categories/userspace/</link>
+    <description>Recent content in Userspace on Linux kernel programming blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 09 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/categories/userspace/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Porting a userspace program to Kernel space</title>
+      <link>http://localhost:1313/post/2024/08/09/porting-a-userspace-program-to-kernel-space/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/08/09/porting-a-userspace-program-to-kernel-space/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; style=&#34;float: left; padding-left: 0%&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_12.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;differences-between-kernel-and-userspace&#34;&gt;Differences between Kernel and Userspace&lt;/h1&gt;&#xA;&lt;p&gt;Porting a Rust program to the Linux Kernel is very similar to porting a Rust&#xA;program to an embedded device. Compared to the program you write on your desktop&#xA;computer, you cannot use the standard library (&lt;code&gt;std&lt;/code&gt;). Furthermore, embedded&#xA;systems and the Linux Kernel have special requirements for memory management.&#xA;Allocations in Kernel space must not fail, because this would lead to a kernel&#xA;panic, that makes the whole system crash. And we don&amp;rsquo;t want our operating system&#xA;to crash.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

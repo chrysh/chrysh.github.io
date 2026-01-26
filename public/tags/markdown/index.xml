@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Markdown on Linux kernel programming blog</title>
+    <link>http://chrysh.github.io/tags/markdown/</link>
+    <description>Recent content in Markdown on Linux kernel programming blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 23 Feb 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://chrysh.github.io/tags/markdown/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>C vs Rust - In the Linux Kernel</title>
+      <link>http://chrysh.github.io/post/2024/02/23/c-vs-rust-in-the-linux-kernel/</link>
+      <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://chrysh.github.io/post/2024/02/23/c-vs-rust-in-the-linux-kernel/</guid>
+      <description>+++ Plus +++ Memory bugs and Concurrency Let&amp;rsquo;s get the obvious out of the way: With Rust, you will inherently write safer code, because the compiler will complain until you do. Whole error classes will become less common when Rust programs are widely used: Buffer-Overflows, many types of Memory-Leaks, Race conditions are made impossible, because the compiler will force you to have only multiple readers for shared data OR one writer at a time for mutable data.</description>
+    </item>
+    <item>
+      <title>Getting involved</title>
+      <link>http://chrysh.github.io/post/2024/02/17/getting-involved/</link>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://chrysh.github.io/post/2024/02/17/getting-involved/</guid>
+      <description>Rust for Linux The best starting place is probably the web page of the project, rust-for-linux.com. This page is meant as a hub of links, documentations and resources to this topic. One source that does not seem to work well is the github Good first issues page, which currently is not up to date, and all good first issues are already done or in progress by somebody. On the other hand, the Rust-for-Linux github repo is still in use and commits are pushed to it on a regular basis.</description>
+    </item>
+    <item>
+      <title>Porting my first phy driver</title>
+      <link>http://chrysh.github.io/post/2024/02/06/porting-my-first-phy-driver/</link>
+      <pubDate>Tue, 06 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://chrysh.github.io/post/2024/02/06/porting-my-first-phy-driver/</guid>
+      <description>Why the phy? I saw that Fujita Tomonori had added the Rust version of the ax88796b phy driver for the Asix PHY, which looked very similar to the C version of this driver (compare ax88796b_rust.rs vs ax88796b.c). This driver is meant as a reference driver for further phy drivers. The phy.rs file uses binding to struct phy_device and to pass through C function calls to phy driver functions.&#xA;Changing Kconfig and Makefile First step when you add a new Linux kernel driver is always to edit the Makefile, which gives the make system the information to compile and link the driver, as well as the Kconfig file, where the user can select to enable your driver using the command make menuconfig.</description>
+    </item>
+    <item>
+      <title>Creating C bindings</title>
+      <link>http://chrysh.github.io/post/2024/02/02/creating-c-bindings/</link>
+      <pubDate>Fri, 02 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://chrysh.github.io/post/2024/02/02/creating-c-bindings/</guid>
+      <description>What are bindings? Bindings are ways to create an interface between two programming languages, which allow code written in one language to call from code in another language. In the case of Rust in the Linux kernel code, Rust FFI (Foreign Function Interface) bindings are used to call C functions, conforming to the C calling convention. This means that arguments are placed on the stack or in registers, as the C function is expecting to find them there, and cleans up after the function call.</description>
+    </item>
+    <item>
+      <title>Getting Started</title>
+      <link>http://chrysh.github.io/post/2024/01/31/getting-started/</link>
+      <pubDate>Wed, 31 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://chrysh.github.io/post/2024/01/31/getting-started/</guid>
+      <description>Check out code I recommend checking out the Rust-for-Linux kernel to play around with, because it has many more sample modules than the mainline kernel. Even though the interfaces are probably not stable, you can get an idea where development is headed.&#xA;Get your tools ready After checking out, you should follow the instructions in Documentation/rust/quick-start.rst for setting up your tools. I had more luck using rustup to get the versions of bindgen and rustc compatible with the kernel than using my distributions aptitude command.</description>
+    </item>
+  </channel>
+</rss>

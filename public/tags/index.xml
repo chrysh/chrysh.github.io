@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags on Linux kernel programming blog</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on Linux kernel programming blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 09 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hashset</title>
+      <link>http://localhost:1313/tags/hashset/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/hashset/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kernel Driver</title>
+      <link>http://localhost:1313/tags/kernel-driver/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/kernel-driver/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linux Kernel</title>
+      <link>http://localhost:1313/tags/linux-kernel/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/linux-kernel/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Quarto</title>
+      <link>http://localhost:1313/tags/quarto/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/quarto/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust</title>
+      <link>http://localhost:1313/tags/rust/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/rust/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Kernel Module</title>
+      <link>http://localhost:1313/tags/kernel-module/</link>
+      <pubDate>Sat, 06 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/kernel-module/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Out-of-Tree Module</title>
+      <link>http://localhost:1313/tags/out-of-tree-module/</link>
+      <pubDate>Sat, 06 Jul 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/out-of-tree-module/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ioctl</title>
+      <link>http://localhost:1313/tags/ioctl/</link>
+      <pubDate>Tue, 02 Apr 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/ioctl/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Error Handling</title>
+      <link>http://localhost:1313/tags/error-handling/</link>
+      <pubDate>Sat, 09 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/error-handling/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Result Type</title>
+      <link>http://localhost:1313/tags/result-type/</link>
+      <pubDate>Sat, 09 Mar 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/result-type/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Allocators</title>
+      <link>http://localhost:1313/tags/allocators/</link>
+      <pubDate>Sun, 25 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/allocators/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Std Crate</title>
+      <link>http://localhost:1313/tags/std-crate/</link>
+      <pubDate>Sun, 25 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/std-crate/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Buffer Overflow</title>
+      <link>http://localhost:1313/tags/buffer-overflow/</link>
+      <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/buffer-overflow/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Cleanup</title>
+      <link>http://localhost:1313/tags/cleanup/</link>
+      <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/cleanup/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Community</title>
+      <link>http://localhost:1313/tags/community/</link>
+      <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/community/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Compiler</title>
+      <link>http://localhost:1313/tags/compiler/</link>
+      <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/compiler/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Linker</title>
+      <link>http://localhost:1313/tags/linker/</link>
+      <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/linker/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Memory Safety</title>
+      <link>http://localhost:1313/tags/memory-safety/</link>
+      <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/memory-safety/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust vs C</title>
+      <link>http://localhost:1313/tags/rust-vs-c/</link>
+      <pubDate>Fri, 23 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/rust-vs-c/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Reference Driver</title>
+      <link>http://localhost:1313/tags/reference-driver/</link>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/reference-driver/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Zulip</title>
+      <link>http://localhost:1313/tags/zulip/</link>
+      <pubDate>Sat, 17 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/zulip/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Ax88796b</title>
+      <link>http://localhost:1313/tags/ax88796b/</link>
+      <pubDate>Tue, 06 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/ax88796b/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Net-Next</title>
+      <link>http://localhost:1313/tags/net-next/</link>
+      <pubDate>Tue, 06 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/net-next/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Network Driver</title>
+      <link>http://localhost:1313/tags/network-driver/</link>
+      <pubDate>Tue, 06 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/network-driver/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>PHY</title>
+      <link>http://localhost:1313/tags/phy/</link>
+      <pubDate>Tue, 06 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/phy/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rockchip</title>
+      <link>http://localhost:1313/tags/rockchip/</link>
+      <pubDate>Tue, 06 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/rockchip/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Bindgen</title>
+      <link>http://localhost:1313/tags/bindgen/</link>
+      <pubDate>Fri, 02 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/bindgen/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>C Bindings</title>
+      <link>http://localhost:1313/tags/c-bindings/</link>
+      <pubDate>Fri, 02 Feb 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/c-bindings/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Compiling</title>
+      <link>http://localhost:1313/tags/compiling/</link>
+      <pubDate>Wed, 31 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/compiling/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Make</title>
+      <link>http://localhost:1313/tags/make/</link>
+      <pubDate>Wed, 31 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/make/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>Rust for Linux</title>
+      <link>http://localhost:1313/tags/rust-for-linux/</link>
+      <pubDate>Wed, 31 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/rust-for-linux/</guid>
+      <description></description>
+    </item>
+  </channel>
+</rss>

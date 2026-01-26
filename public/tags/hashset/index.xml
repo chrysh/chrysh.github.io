@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Hashset on Linux kernel programming blog</title>
+    <link>http://localhost:1313/tags/hashset/</link>
+    <description>Recent content in Hashset on Linux kernel programming blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 09 Aug 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/hashset/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Hashset</title>
+      <link>http://localhost:1313/post/2024/08/09/hashset/</link>
+      <pubDate>Fri, 09 Aug 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/08/09/hashset/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_11.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;why-reinventing-hashset&#34;&gt;Why reinventing HashSet?&lt;/h1&gt;&#xA;&lt;p&gt;This article will focus on adding a Hashset to the&#xA;&lt;a href=&#34;https://github.com/chrysh/quarto_rs/tree/add_hashset&#34;&gt;quarto_rs&lt;/a&gt;. As previously&#xA;discussed, because we cannot use the Rust stdlib when writing code for the Linux&#xA;kernel, we have to implement the HashSet trait and implementation ourselves.&lt;/p&gt;&#xA;&lt;p&gt;I am aware of the fact that it would have been much easier to replace the HashSet&#xA;with a Vector of size 64 and iterate over it. But I wanted to modify the&#xA;original code as little as possible.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

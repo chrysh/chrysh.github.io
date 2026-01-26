@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Error handling | Linux kernel programming blog</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/post/">Posts</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Error handling</span></h1>
+
+<h2 class="date">2024/03/09</h2>
+</div>
+
+<main>
+<p><a href="https://github.com/Rust-for-Linux/"><img src="/static/img/rusty_penguin_7.jpeg" style="max-width:40%;min-width:40px;float:right;padding:40px" alt="Rusty penguin. Created by DALL·E 3." /></a></p>
+<h1 id="error-handling-in-rust">Error handling in Rust</h1>
+<p>In C, it is common that functions return a integer indicating the success or
+failure of the function execution. Extra data can only be modified or returned
+through non-<code>const</code> pointer parameters. Rust on the other hand uses explicit
+error types.  The Result type encapsulates error and success.  In the context of
+Rust code in the Linux Kernel, functions that would return an error code in C
+would return a <code>core::result::Result</code> with <code>Error</code> as its error type instead. In
+the following subsections, we will mainly look at the file
+<code>rust/kernel/error.rs</code>, and see how it interacts with the kernel error handling.</p>
+<h2 id="declare_err-macro"><code>declare_err</code> macro</h2>
+<p>The file <code>rust/kernel/error.rs</code> couples Rust errors to Linux Kernel Code. It
+starts off by declaring a macro <code>declare_err</code>, which expands to the given name
+and error code.</p>
+<pre><code>macro_rules! declare_err {
+    ($err:tt $(,)? $($doc:expr),+) =&gt; {
+        $(
+        #[doc = $doc]
+        )*
+        pub const $err: super::Error = super::Error(-(crate::bindings::$err as i32));
+    };
+}
+</code></pre>
+<p>This macro is used for all the errors used in the Linux kernel, and connects the
+error code with its documentation.</p>
+<pre><code>declare_err!(EPERM, &quot;Operation not permitted.&quot;);
+declare_err!(ENOENT, &quot;No such file or directory.&quot;);
+</code></pre>
+<p>The first line expands to the following two lines:</p>
+<pre><code>#[doc =  &quot;Operation not permitted.&quot;]
+pub const EPERM: super::Error = super::Error(-(crate::bindings::EPERM as i32));
+</code></pre>
+<p>The error code is negated and cast to a i32 to match the type of <code>super::Error</code>.
+This code declares a constant, <code>EPERM</code>, with the respective documentation. The
+documentation can be generated with rustdoc, but the documentation String is not
+accessible at runtime, because Rust does not have a reflection feature like some
+other languages like Python, Java and C# do.</p>
+<p>The <code>$(,)?</code> designator allows for an optional trailing comma. This means that
+both those invocations are valid, the second line having a trailing comma:</p>
+<pre><code>declare_err!(EPERM, &quot;Operation not permitted.&quot;);
+declare_err!(ENOENT, &quot;No such file or directory&quot;,);
+</code></pre>
+<p>Furthermore, the designator <code>$($doc:expr),+</code> means that it is possible to pass
+several comma separated string arguments to the macro. This will result in one
+additional doc line for each additional string passed.</p>
+<p>Let&rsquo;s take the following line as an example:</p>
+<pre><code>declare_err!(EPERM, &quot;Operation not permitted.&quot;, &quot;This is usually due to insufficient permissions.&quot;);
+</code></pre>
+<p>This would be expanded to the following code:</p>
+<pre><code>#[doc = &quot;Operation not permitted.&quot;]
+#[doc = &quot;This is usually due to insufficient permissions.&quot;]
+pub const EPERM: super::Error = super::Error(-(crate::bindings::EPERM as i32));
+</code></pre>
+<h2 id="from_errno-and-back"><code>from_errno</code> and back</h2>
+<p>After declaring the constants, the implementation for the Error struct follows.</p>
+<pre><code>#[derive(Clone, Copy, PartialEq, Eq)]
+pub struct Error(core::ffi::c_int);
+
+impl Error {
+    pub(crate) fn from_errno(errno: core::ffi::c_int) -&gt; Error {
+        if errno &lt; -(bindings::MAX_ERRNO as i32) || errno &gt;= 0 {
+            crate::pr_warn!(
+                &quot;attempted to create `Error` with out of range `errno`: {}&quot;,
+                errno
+            );
+            return code::EINVAL;
+        }
+        Error(errno)
+    }
+}
+</code></pre>
+<p>A call to the function <code>from_errno</code> returns an Error type in case the integer
+<code>errno</code> passed to it was in the valid error range, or the Error <code>EINVAL</code> otherwise.</p>
+<p>Other Rust code uses the <code>from_errno</code> function as follows:</p>
+<pre><code>pub fn read(&amp;mut self, regnum: u16) -&gt; Result&lt;u16&gt; {
+...
+    let ret = unsafe { bindings::some_function() };
+    if ret &lt; 0 {
+        Err(Error::from_errno(ret))
+    } else {
+        Ok(ret as u16)
+    }
+}
+</code></pre>
+<p>The return value of read is therefore of a <code>Result</code> type.</p>
+<p>For the transformation back from an Error type to a C integer, the function <code>to_errno</code>
+is implemented:</p>
+<pre><code>impl Error {
+    /// Returns the kernel error code.
+    pub fn to_errno(self) -&gt; core::ffi::c_int {
+        self.0
+    }
+}
+</code></pre>
+<p>Since the code line <code>pub struct Error(core::ffi::c_int);</code> defines that the struct
+has only one element, we can access this element by means of writing <code>self.0</code>.</p>
+<p>The following code block implements the <code>From</code> trait for the <code>Error</code> type from
+the <code>AllocError</code> type.</p>
+<pre><code>impl From&lt;AllocError&gt; for Error {
+    fn from(_: AllocError) -&gt; Error {
+        code::ENOMEM
+    }
+}
+</code></pre>
+<p>The <code>from</code> function takes an <code>AllocError</code> as an argument, but ignores the
+argument (indicated by <code>_</code> as the argument name), and always returns
+<code>code::ENOMEM</code>. Similar code block exist to convert a <code>TryFromIntError</code> into <code>EINVAL</code>, a
+<code>LayoutError</code> into <code>ENOMEM</code>, etc. Because of this implementation, you can
+explicitly use the <code>into()</code> method to convert an <code>AllocError</code> into an <code>Error</code>,
+or the compiler performs the conversion for you where the context is
+unambiguous.</p>
+<p>Here is a code block demonstrating how the conversion can be used:</p>
+<pre><code>let alloc_error = AllocError::new();
+let error: Error = alloc_error.into(); // This works because of the `From&lt;AllocError&gt; for Error` implementation
+</code></pre>
+<p>The next noteworthy code block implements the From trait for the type
+Infallible. However, since the type <code>Infallible</code> can not exist because no value
+can be an <code>Infallible</code>, the function body is a match with no arms, to signal
+that &ldquo;this situation is impossible&rdquo;. This is a Rust idiom used for dealing with
+types that are theoretically possible due to generic type parameters, but
+practically will never occur because the specific types are not used.</p>
+<pre><code>impl From&lt;core::convert::Infallible&gt; for Error {
+    fn from(e: core::convert::Infallible) -&gt; Error {
+        match e {}
+    }
+}
+</code></pre>
+<pre><code>/// Converts an integer as returned by a C kernel function to an error if it's negative, and
+/// `Ok(())` otherwise.
+pub fn to_result(err: core::ffi::c_int) -&gt; Result {
+    if err &lt; 0 {
+        Err(Error::from_errno(err))
+    } else {
+        Ok(())
+    }
+}
+</code></pre>
+<pre><code>
+</code></pre>
+<p>TODO: Also show usages of this code</p>
+
+</main>
+
+  <footer>
+  
+  
+  <hr/>
+  © <a href="https://chrysh.github.io">Christina Quast</a> 2024 &ndash; 2024 | <a href="https://github.com/chrysh">Github</a>
+  
+  </footer>
+  </body>
+</html>
+

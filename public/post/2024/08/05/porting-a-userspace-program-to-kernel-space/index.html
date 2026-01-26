@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Porting a userspace program to Kernel space | Linux kernel programming blog</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/static/css/custom.css" />
+<meta name="google-site-verification" content="m3n6pzMcloBT3cd6VuLuPT6UnxIO7wfNvpd59oC6S14"/>
+
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/post/">Posts</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Porting a userspace program to Kernel space</span></h1>
+
+<h2 class="date">2024/08/05</h2>
+</div>
+
+<main>
+<p><a href="https://github.com/Rust-for-Linux/"><img class="penguin" style="float: left; padding-left: 0%" src="/static/img/rusty_penguin_12.jpeg" alt="Rusty penguin. Created by DALL·E 3." /></a></p>
+<h1 id="differences-between-kernel-and-userspace">Differences between Kernel and Userspace</h1>
+<p>Porting a Rust program to the Linux Kernel is very similar to porting a Rust
+program to an embedded device. Compared to the program you write on your desktop
+computer, you cannot use the standard library (<code>std</code>). Furthermore, embedded
+systems and the Linux Kernel have special requirements for memory management.
+Allocations in Kernel space must not fail, because this would lead to a kernel
+panic, that makes the whole system crash. And we don&rsquo;t want our operating system
+to crash.</p>
+<p>So while it might seem easy on a first glance to port the program, let&rsquo;s dig
+deeper into the pitfalls and problems you will encounter.</p>
+<h2 id="tldr">TL;DR</h2>
+<p>If you ever wanted to port  a userspace Rust program to the kernel, you would
+need to take care of the following things:</p>
+<ol>
+<li>
+<p>Change imports of <code>std::</code> lib to use <code>kernel::</code> or <code>core::</code>. You can not use
+any crates without porting them. Even <code>Vec</code> has a different implementation in
+the kernel space.</p>
+</li>
+<li>
+<p>You cannot use the command line for input/output. User interaction can
+happen through other communication interfaces, e.g.
+read/write of a character device, or the <code>/sys</code> interface</p>
+</li>
+<li>
+<p>Allocations in the kernel can fail when it is low on memory. Therefore, you
+have to implement and work with fallible allocations (e.g. <code>collect</code> would
+turn into <code>try_collect</code> for the <code>Vec</code> type, see
+<a href="https://github.com/rust-lang/rust/issues/94047">rust-lang</a>)</p>
+</li>
+<li>
+<p>The <a href="https://github.com/Rust-for-Linux/">Rust-for-Linux</a> project implemented
+the allocator for you, so at least, you don&rsquo;t need to take care that.</p>
+</li>
+<li>
+<p>All occurrences of <code>println!</code> and other print-related macros need to be
+replaced with the kernel equivalents <code>pr_info!</code>, <code>pr_warn!</code>, <code>pr_err</code>, etc.</p>
+</li>
+<li>
+<p>To interact with the system, instead of using <code>std::time::</code>, the kernel
+equivalent has to be used, and implemented if it does not exist yet. It might
+be necessary to add <a href="../../../../2024/02/02/creating-c-bindings/">bindings</a> to C
+Kernel functions to use them.</p>
+</li>
+<li>
+<p>You have to add a Kernel Makefile if you want to compile your Rust kernel
+module as an out-of-tree kernel module for your specific kernel. If you want
+to be able to select your module with <code>make menuconfig</code>, you will also have to
+add an entry to the <code>KConfig</code> file.</p>
+</li>
+</ol>
+<p>And this is not an exhaustive list.</p>
+<h2 id="there-is-no-stdlib">There is no stdlib</h2>
+<p>Besides changing the imports from <code>std::</code> to <code>kernel::</code> or <code>core::</code>,
+you also <a href="../../../02/25/allocators/">cannot use the stdlib in kernel space</a>,
+then <a href="../../../02/02/creating-c-bindings/">adding a few C bindings</a> to interact
+with existing kernel code, and making sure that all the functions you use should
+not panic and crash the rest of the kernel, the code should globally be the
+same. This blog entry gives you an idea how complex the work actually is.</p>
+<h2 id="there-is-no-stdinstdout">There is no stdin/stdout</h2>
+<p>When you start a program in bash, you usually communicate with the program by
+writing to <code>stdout</code> (file descriptor 1) and reading user input from <code>stdin</code> (file
+descriptor 0). Those file descriptors are provided to you by the kernel. You can
+still pass and receive data from/to the kernel through other mechanisms. For
+example, if you register a character device driver, you can implement the
+read/write function associated with the device driver to pass data. You are
+using read/write every time you do an echo into a <code>/dev/tty</code>.</p>
+<p>Furthermore, the kernel provides a means to configure drivers or inform you about
+stats through <code>/sys</code> and <code>/proc</code> file systems. This could be used as the
+<code>stdout</code> of the game as well, although the solution with the character device is
+surely much cleaner.</p>
+<h2 id="there-is-no-collect">There is no <code>collect</code></h2>
+<p>The <a href="https://github.com/Rust-for-Linux/">Rust kernel</a> copies over the current
+content of <a href="https://github.com/rust-lang/rust">rust-lang</a> into the <code>rust</code>
+directory, and adds kernel specific code to <code>rust/kernel</code>. Not all functions can
+be used in the kernel though. You don&rsquo;t want to use functions that could panic
+in the kernel because then the whole system will panic. Therefore, you cannot
+just use the function <code>collect</code> to create a Vector, you would have to use
+<code>try_collect</code> - which is <a href="https://github.com/rust-lang/rust/issues/94047">not implemented
+yet</a>.</p>
+<h2 id="there-are-no-crates">There are no crates</h2>
+<p>Oftentimes, userspace Rust programs will use crates. My example program uses
+HashSet, for which there is no kernel equivalent yet. There are some lightweight
+crates that are useful for embedded systems. And even comparatively small crates
+often times have dependencies on other crates.</p>
+
+</main>
+
+  <footer>
+  
+  
+  <hr/>
+  © <a href="https://chrysh.github.io">Christina Quast</a> 2024 &ndash; 2024 | <a href="https://github.com/chrysh">Github</a>
+  
+  </footer>
+  </body>
+</html>
+

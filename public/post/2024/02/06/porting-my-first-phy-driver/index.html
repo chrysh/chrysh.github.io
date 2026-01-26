@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Porting my first phy driver | Linux kernel programming blog</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/static/css/custom.css" />
+<meta name="google-site-verification" content="m3n6pzMcloBT3cd6VuLuPT6UnxIO7wfNvpd59oC6S14"/>
+
+  </head>
+
+  <body>
+    <nav>
+    <ul class="menu">
+      
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/post/">Posts</a></li>
+      
+      <li><a href="/categories/">Categories</a></li>
+      
+      <li><a href="/about/">About</a></li>
+      
+      <li><a href="/workshops/">Workshops</a></li>
+      
+    </ul>
+    <hr/>
+    </nav>
+
+<div class="article-meta">
+<h1><span class="title">Porting my first phy driver</span></h1>
+
+<h2 class="date">2024/02/06</h2>
+</div>
+
+<main>
+<p><a href="https://github.com/Rust-for-Linux/"><img class="penguin" src="/static/img/rusty_penguin_2.jpeg" alt="Rusty penguin. Created by DALL·E 3." /></a></p>
+<h1 id="why-the-phy">Why the phy?</h1>
+<p>I saw that <strong>Fujita Tomonori</strong> had added the <strong>Rust version</strong> of the ax88796b
+phy driver for the  Asix PHY, which looked very similar to the C version of this
+driver (compare
+<a href="https://elixir.bootlin.com/linux/v6.8-rc3/source/drivers/net/phy/ax88796b_rust.rs">ax88796b_rust.rs</a>
+vs
+<a href="https://elixir.bootlin.com/linux/v6.8-rc3/source/drivers/net/phy/ax88796b.c">ax88796b.c</a>).
+This driver is meant as a reference driver for further phy drivers. The
+<a href="https://elixir.bootlin.com/linux/v6.8-rc3/source/rust/kernel/net/phy.rs">phy.rs</a>
+file uses binding to <code>struct phy_device</code> and to pass through C function calls to
+phy driver functions.</p>
+<h1 id="changing-kconfig-and-makefile">Changing Kconfig and Makefile</h1>
+<p>First step when you add a <strong>new Linux kernel driver</strong> is always to edit the
+Makefile, which gives the make system the information to <strong>compile and link</strong> the driver, as well as the Kconfig file, where the user can select to <strong>enable</strong> your driver using the command <code>make menuconfig</code>.</p>
+<p>So this is how my <code>drivers/net/phy/Kconfig</code> looks now:</p>
+<pre><code>config ROCKCHIP_RUST_PHY
+       bool &quot;Rust driver for Rockchip Ethernet PHYs&quot;
+       depends on RUST_PHYLIB_ABSTRACTIONS &amp;&amp; ROCKCHIP_PHY
+       help
+         Uses the Rust reference driver for Rockchip PHYs (rockchip_rust.ko).
+         The features are equivalent. It supports the integrated Ethernet PHY.
+</code></pre>
+<p>Furthermore, since both ax88796b drivers are matched with the same DeviceIds,
+the file <code>drivers/net/phy/Makefile</code> makes sure that only one of both is compiled
+at a time, depending whether the field <code>CONFIG_ROCKCHIP_RUST_PHY</code> is defined or
+not.</p>
+<pre><code>ifdef CONFIG_ROCKCHIP_RUST_PHY
+obj-$(CONFIG_ROCKCHIP_PHY)     += rockchip_rust.o
+else
+obj-$(CONFIG_ROCKCHIP_PHY)     += rockchip.o
+endif
+</code></pre>
+<h1 id="make-it-a-module">Make it a module!</h1>
+<p>Rust <strong>declarative macros</strong> are used to declare the kernel module and its basic
+elements, like module name, author, description, drivers, etc.
+The <code>device_table</code> contains all information that are needed for matching device
+and driver (see <a href="#matching-driver-to-device">next paragraph</a> for more
+information on matching).</p>
+<pre><code>kernel::module_phy_driver! {
+    drivers: [PhyRockchip],
+    device_table: [
+        DeviceId::new_with_driver::&lt;PhyRockchip&gt;(),
+    ],
+    name: &quot;rust_rockchip_phy&quot;,
+    author: &quot;John Doe &lt;john.doe@mail.com&gt;&quot;,
+    description: &quot;Rust Rockchip PHY driver&quot;,
+    license: &quot;GPL&quot;,
+}
+</code></pre>
+<h1 id="matching-driver-to-device">Matching driver to device</h1>
+<p>Each phy driver has to implement the <strong>Driver trait</strong> in order to register which
+devices it is responsible for. The rockchip driver, for example, is responsible
+for any phy showing up with <code>phy_id &amp; 0xfffffff0 = 0x1234d400</code>, so 0x1234d400,
+0x1234d401, 0x1234d402, etc. The <strong>platform driver</strong> takes care of actually
+matching the id to driver.</p>
+<pre><code>#define INTERNAL_EPHY_ID			0x1234d400
+
+static struct phy_driver rockchip_phy_driver[] = {
+{
+	.phy_id			= INTERNAL_EPHY_ID,
+	.phy_id_mask		= 0xfffffff0,
+	.name			= &quot;Rockchip integrated EPHY&quot;,
+	/* PHY_BASIC_FEATURES */
+	.flags			= 0,
+...
+}
+</code></pre>
+<p>The values for matching are nearly a one to one rewrite of the corresponding C
+struct:</p>
+<pre><code>struct PhyRockchip;
+
+#[vtable]
+impl Driver for PhyRockchip {
+    const FLAGS: u32 = 0;
+    const NAME: &amp;'static CStr = c_str!(&quot;Rockchip integrated EPHY&quot;);
+    const PHY_DEVICE_ID: DeviceId = DeviceId::new_with_custom_mask(0x1234d400, 0xfffffff0);
+...
+</code></pre>
+<h1 id="driver-functions">Driver functions</h1>
+<p>Each phy driver can decide which functions to implement and which ones to leave
+out. For the <code>Driver trait</code>, if a function is implemented, it will be called by
+the phy layer.  If the function is not implemented, the <strong>default phy driver
+function</strong> that can be found in
+<a href="https://elixir.bootlin.com/linux/v6.8-rc3/source/rust/kernel/net/phy.rs">phy.rs</a>
+is called instead.</p>
+<p>I implemented only the functions that the original rockchip driver did:<br>
+<code>soft_reset, config_init, config_aneg, suspend, resume</code></p>
+<pre><code>struct PhyRockchip;
+
+#[vtable]
+impl Driver for PhyRockchip {
+...
+    fn soft_reset(dev: &amp;mut phy::Device) -&gt; Result {
+        dev.genphy_soft_reset()
+    }
+...
+}
+</code></pre>
+<p>If a function of the <strong>Driver trait</strong> is not implemented, <strong>ENOTSUPP</strong> is returned
+in the version of the kernel I used.</p>
+<pre><code>/// in phy.rs:
+
+#[vtable]
+pub trait Driver {
+...
+    /// Issues a PHY software reset.
+    fn soft_reset(_dev: &amp;mut Device) -&gt; Result {
+        Err(code::ENOTSUPP)
+    }
+...
+}
+</code></pre>
+<h1 id="adding-bindings">Adding bindings</h1>
+<p>The version of
+<a href="https://elixir.bootlin.com/linux/v6.8-rc3/source/rust/kernel/net/phy.rs">phy.rs</a>
+that I used for the driver in January 2024 did not have the function
+<code>config_aneg</code>, so I had to add it myself:</p>
+<pre><code>pub struct Device(Opaque&lt;bindings::phy_device&gt;);
+
+impl Device {
+...
+    /// Writes BMCR
+    pub fn genphy_config_aneg(&amp;mut self) -&gt; Result {
+        let phydev = self.0.get();
+        // SAFETY: `phydev` is pointing to a valid object by the type invariant of `Self`.
+        // So it's just an FFI call.
+        // second param = false =&gt; autoneg not requested
+        to_result(unsafe { bindings::__genphy_config_aneg(phydev, false) })
+    }
+}
+</code></pre>
+<p>Because <code>struct Device</code> is defined using <code>bindings::phy_device</code> as
+initialization, when we use <code>self.0.get()</code>, we get back a <strong>raw pointer</strong> to the
+<code>struct phy_device</code> which can then be passed to <code>__genphy_config_aneg</code>.
+Since we are calling an unsafe function, the documentation should state why this
+pointer is valid during this function call.</p>
+<p>The <code>to_result</code> function turns a C style error value to a Rust style Result.</p>
+<h1 id="file-sizes">File sizes</h1>
+<p>In the case of the rockchip driver, it turns out that for both, the <strong>code
+file</strong> as well as the <strong>resulting kernel module</strong>, the Rust version is smaller
+than the C version of this driver.</p>
+<pre><code>% wc -l rockchip*
+200 drivers/net/phy/rockchip.c
+131 drivers/net/phy/rockchip_rust.rs
+</code></pre>
+<pre><code>% ls -lh rockchip*ko
+-rw-r--r-- 1 chrysh chrysh 14K Feb  1 18:42 drivers/net/phy/rockchip.ko
+-rw-r--r-- 1 chrysh chrysh 12K Jan 30 16:50 drivers/net/phy/rockchip_rust.ko
+</code></pre>
+<p>Unfortunately, I could not try out the Rust Rockchip driver, because I do not
+have a board with this phy chip. But it compiles, so ship it!</p>
+<p>See the <a href="https://lore.kernel.org/lkml/20240201-rockchip-rust-phy_depend-v2-3-c5fa4faab924@christina-quast.de/">patch file</a> for the full version of the driver or the list of commits on <a href="../../../02/06/porting-my-first-phy-driver/">github</a>.</p>
+
+</main>
+
+  <footer>
+  
+  
+  <hr/>
+  © <a href="https://chrysh.github.io">Christina Quast</a> 2024 &ndash; 2026 | <a href="https://github.com/chrysh">Github</a>
+  
+  </footer>
+  </body>
+</html>
+

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rust for Linux on Linux kernel programming blog</title>
+    <link>http://localhost:1313/tags/rust-for-linux/</link>
+    <description>Recent content in Rust for Linux on Linux kernel programming blog</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 31 Jan 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/rust-for-linux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Getting Started</title>
+      <link>http://localhost:1313/post/2024/01/31/getting-started/</link>
+      <pubDate>Wed, 31 Jan 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/post/2024/01/31/getting-started/</guid>
+      <description>&lt;p&gt;&lt;a href=&#34;https://github.com/Rust-for-Linux/&#34;&gt;&lt;img class=&#34;penguin&#34; src=&#34;http://localhost:1313/static/img/rusty_penguin_1.jpeg&#34; alt=&#34;Rusty penguin. Created by DALL·E 3.&#34; /&gt;&lt;/a&gt;&lt;/p&gt;&#xA;&lt;h1 id=&#34;check-out-code&#34;&gt;Check out code&lt;/h1&gt;&#xA;&lt;p&gt;I recommend checking out the &lt;a href=&#34;https://github.com/Rust-for-Linux&#34;&gt;Rust-for-Linux kernel&lt;/a&gt; to play around with, because it has many more sample modules than the mainline kernel. Even though the interfaces are probably not stable, you can get an idea where development is headed.&lt;/p&gt;&#xA;&lt;h1 id=&#34;get-your-tools-ready&#34;&gt;Get your tools ready&lt;/h1&gt;&#xA;&lt;p&gt;After checking out, you should follow the instructions in&#xA;&lt;code&gt;Documentation/rust/quick-start.rst&lt;/code&gt; for setting up your tools. I had more luck&#xA;using rustup to get the versions of bindgen and rustc compatible with the kernel&#xA;than using my distributions aptitude command. There is a nifty little script&#xA;called &lt;code&gt;rust_is_available.sh&lt;/code&gt; which will tell you whether your setup works for&#xA;compiling a Rust kernel.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
