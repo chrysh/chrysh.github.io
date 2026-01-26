@@ -1,0 +1,9 @@
+# Hugo generated files
+public/
+resources/_gen/
+.hugo_build.lock
+hugo_stats.json
+
+# Temporary files
+*.swp
+.DS_Store
