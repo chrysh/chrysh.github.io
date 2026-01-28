@@ -37,9 +37,9 @@ if (p == NULL) {
 
 | Feature         | C Language                      | Rust Language                         |
 | -------         | ----------                      | -------------                         |
-| Heap Allocation | `int *p = malloc(sizeof(int));` | `let p = Box::new(0i32);`             |
+| Heap Allocation | `int *p = malloc(sizeof(int));` | `let p = Box::new(i32);`             |
 | Deallocation    | `free(p);`                      | Automatic (when `p` leaves the scope) |
-| Memory          | `if (p == NULL) { ... }`        | `Option<Box<i3>` (Pattern matching)   |
+| Memory          | `if (p == NULL) { ... }`        | `Option<Box<i32>` (Pattern matching)   |
 
 
 At the machine level, the variable p is exactly 8 bytes (on a 64-bit system) or 4 bytes (on 32-bit).
