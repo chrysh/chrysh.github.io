@@ -97,15 +97,9 @@ Technically speaking, Rust's borrow checker is a zero-cost, compile-time Read-Wr
 
 # Arc/ Rc
 
-Arc stands for "Atomic Reference Counted", Rc stands for "Reference Rounted".
-On creation, when you call `Arc::new(data)`, the strong count starts at 1.
-When you call `.clone()` on the data later, you aren't copying the data; you are simply incrementing the strong count using an atomic operation.
-When an Arc handle goes out of scope, it decrements the strong count.
-When the strong count reaches 0 is the data actually "dropped" and the memory freed.
+Arc stands for "Atomic Reference Counted", and Rc stands for "Reference Counted". As we saw in [Post 07: Locks and synchronization](/post/2024/03/10/locks-and-synchronization/), these are used to manage shared ownership when a single "owner" isn't sufficient.
 
-The "A" in Arc stands for Atomic. This is the crucial difference between Arc and its single-threaded sibling, Rc.
-Rc (Reference Counted) uses standard integers for counters. It's fast, but if two threads try to increment the counter at the same time, you get a data race (and likely a memory leak or double-free).
-Arc (Atomic Reference Counted) on the other hand uses CPU-level atomic instructions (like LOCK INC on x86 or LDREX/STREX on ARM). This ensures that the reference count remains accurate even if multiple threads are cloning or dropping handles simultaneously.
+The "A" in Arc stands for Atomic. This is the crucial difference: Rc uses standard integers and is fast but thread-unsafe, while Arc uses CPU-level atomic instructions to remain accurate across multiple threads.
 
 # Mutable Arc
 
@@ -184,15 +178,11 @@ In C, when you pass a struct to a function by value, it's a memcpy. In Rust, itâ
 
 # No Garbage Collection
 
-Rust does not have a garbage collector (GC), it uses the "Resource Acquisition is Initialization" (RAII) approach. 
-Unlike languages like Java, Python, or Go, which use a background process to scan memory and reclaim unused space while the program is running, Rust manages memory through a system of Ownership and Borrowing.
-Memory is automatically deallocated the exact moment the variable owning it goes out of scope. This is handled entirely at compile time.
-For situations, where ownershoip is not straightforward, Rust provides smart pointers `Rc<T>` for single threaded and `Arc<T>` for multithreaded scenarios.
+Unlike Java or Python, Rust does not have a garbage collector (GC). Instead, it uses the "Resource Acquisition is Initialization" (RAII) approach, where memory is reclaimed the instant a variable leaves its scope. We discussed the impact of this on userspace-to-kernel porting in [Post 11: Porting Rust Userspace to Kernel](/post/2025/01/26/porting-rust-userspace-to-kernel/).
 
 # Custom Allocators and no_std
 
-In Embedded Linux, you aren't always in "User Space" with a standard malloc.
-Sometimes you need to allocate from a specific pool (e.g., DMA-capable memory or a fixed static buffer). In Rust, you can tell the entire program to use a specific memory pool by implementing the GlobalAlloc trait. This is a nightmare to enforce globally in a large C project.
+In Embedded Linux, you aren't always in "User Space" with a standard `malloc`. Sometimes you need to allocate from a specific pool, such as DMA-capable memory. Rust makes this seamless via the `#[global_allocator]` attribute, which we implemented for the kernel in [Post 05: Allocators](/post/2024/02/25/allocators/).
 
 
 # Memory Layout Control (repr(C))
