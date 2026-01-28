@@ -3,9 +3,16 @@ title: Hashset
 date: '2024-08-09'
 categories:
   - Rust
+  - Linux Kernel
+  - Kernel Driver
+  - Data Structures
 tags:
   - Rust
+  - Linux Kernel
+  - Kernel Driver
+  - Data Structures
   - Hashset
+  - Core
 ---
 
 [<img class="penguin" src="/static/img/rusty_penguin_11.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)

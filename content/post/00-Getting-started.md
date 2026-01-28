@@ -3,15 +3,16 @@ title: Getting Started
 date: '2024-01-31'
 categories:
   - Rust
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
+  - Setup
 tags:
   - Rust
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
+  - Setup
+  - Toolchain
   - Compiling
-  - make
-  - Kernel Module
   - Rust for Linux
 ---
 

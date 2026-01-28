@@ -4,13 +4,15 @@ date: '2024-04-02'
 categories:
   - Rust
   - C
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
+  - Ioctls
 tags:
   - Rust
-  - Kernel Driver
   - Linux Kernel
-  - Ioctl
+  - Kernel Driver
+  - Ioctls
+  - UAPI
 ---
 
 [<img class="penguin" src="/static/img/rusty_penguin_9.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)

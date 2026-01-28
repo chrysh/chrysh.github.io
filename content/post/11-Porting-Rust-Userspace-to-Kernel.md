@@ -4,13 +4,17 @@ date: '2024-08-09'
 categories:
   - Rust
   - C
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
   - Userspace
+  - Migration
 tags:
   - Rust
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
+  - Userspace
+  - Kernelspace
+  - Migration
   - Quarto
 ---
 

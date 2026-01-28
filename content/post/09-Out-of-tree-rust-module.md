@@ -3,13 +3,16 @@ title: Out of tree Kernel module
 date: '2024-07-06'
 categories:
   - Rust
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
+  - Build Systems
 tags:
   - Rust
-  - Kernel module
   - Linux Kernel
-  - Out-of-tree module
+  - Kernel Driver
+  - Build Systems
+  - Kbuild
+  - Out-of-tree
 ---
 
 [<img class="penguin" src="/static/img/rusty_penguin_10.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)

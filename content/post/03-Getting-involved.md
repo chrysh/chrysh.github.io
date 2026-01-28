@@ -3,16 +3,16 @@ title: Getting involved
 date: '2024-02-17'
 categories:
   - Rust
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
   - Community
 tags:
-  - Zulip
   - Rust
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
   - Community
-  - Reference Driver
+  - Open Source
+  - Zulip
 ---
 
 [<img class="penguin" src="/static/img/rusty_penguin_4.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)

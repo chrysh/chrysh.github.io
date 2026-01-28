@@ -4,12 +4,17 @@ date: '2024-03-10'
 categories:
   - Rust
   - C
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
+  - Concurrency
 tags:
   - Rust
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
+  - Concurrency
+  - Locks
+  - Spinlocks
+  - Mutex
 ---
 
 [<img class="penguin" src="/static/img/rusty_penguin_8.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)

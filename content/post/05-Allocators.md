@@ -3,15 +3,17 @@ title: Allocators
 date: '2024-02-25'
 categories:
   - Rust
-  - Kernel Driver
+  - C
   - Linux Kernel
-  - Allocators
+  - Kernel Driver
+  - Memory Management
 tags:
   - Rust
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
   - Allocators
-  - std crate
+  - Memory Management
+  - no_std
 ---
 
 [<img class="penguin" src="/static/img/rusty_penguin_6.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)

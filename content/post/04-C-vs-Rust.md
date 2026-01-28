@@ -4,20 +4,16 @@ date: '2024-02-23'
 categories:
   - Rust
   - C
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
   - Community
 tags:
-  - Rust vs C
-  - Kernel Driver
+  - Rust
   - Linux Kernel
-  - Community
-  - Memory safety
-  - Buffer overflow
-  - Error handling
-  - Cleanup
-  - Linker
-  - Compiler
+  - Kernel Driver
+  - C vs Rust
+  - Memory Safety
+  - Error Handling
 ---
 
 # +++ Plus +++

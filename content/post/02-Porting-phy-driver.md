@@ -3,18 +3,18 @@ title: Porting my first phy driver
 date: '2024-02-06'
 categories:
   - Rust
-  - Kernel Driver
+  - C
   - Linux Kernel
-  - net-next
+  - Kernel Driver
+  - Networking
 tags:
   - Rust
-  - Kernel Driver
   - Linux Kernel
-  - net-next
-  - network driver
-  - rockchip
+  - Kernel Driver
+  - Networking
   - PHY
-  - ax88796b
+  - Rockchip
+  - Migration
 ---
 
 [<img class="penguin" src="/static/img/rusty_penguin_2.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)

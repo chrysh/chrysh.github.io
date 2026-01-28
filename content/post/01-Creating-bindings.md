@@ -3,15 +3,17 @@ title: Creating C bindings
 date: '2024-02-02'
 categories:
   - Rust
-  - Kernel Driver
+  - C
   - Linux Kernel
-  - C bindings
+  - Kernel Driver
+  - C Bindings
 tags:
   - Rust
-  - Kernel Driver
   - Linux Kernel
-  - C bindings
-  - bindgen
+  - Kernel Driver
+  - C Bindings
+  - Bindgen
+  - FFI
 ---
 
 [<img class="penguin" src="/static/img/rusty_penguin_3.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)

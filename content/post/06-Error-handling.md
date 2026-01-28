@@ -4,14 +4,16 @@ date: '2024-03-09'
 categories:
   - Rust
   - C
-  - Kernel Driver
   - Linux Kernel
+  - Kernel Driver
+  - Error Handling
 tags:
   - Rust
-  - Kernel Driver
   - Linux Kernel
-  - Error handling
-  - Result type
+  - Kernel Driver
+  - Error Handling
+  - Result
+  - Panic
 ---
 
 [<img class="penguin" src="/static/img/rusty_penguin_7.jpeg" alt="Rusty penguin. Created by DALL·E 3." />](https://github.com/Rust-for-Linux/)
