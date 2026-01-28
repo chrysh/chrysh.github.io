@@ -68,6 +68,7 @@ img, iframe, video { max-width: 100%; }
 img[style*="float: left"], .penguin { 
   margin-right: 20px; 
   margin-bottom: 10px; 
+  width: 250px;
 }
 main { hyphens: auto; }
 blockquote {
@@ -77,7 +78,7 @@ blockquote {
 }
 
 table {
-  margin: auto;
+  margin-left: 0;
   border-top: 1px solid #666;
   border-bottom: 1px solid #666;
 }
