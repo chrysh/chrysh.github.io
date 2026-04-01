@@ -1,6 +1,6 @@
 ---
 title: C to Rust - Memory
-date: '2025-01-28'
+date: '2026-01-28'
 categories:
   - Rust
   - C
