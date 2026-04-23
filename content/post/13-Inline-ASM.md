@@ -29,11 +29,10 @@ you, it will just generate broken code that just crashes.
 Rust elevates this relationship again to a __formal contract__. In Rust, even
 assembly code is (somewhat) type aware. If you pass a 64 but pointer into a 32 bit
 register operand, the compiler will raise a flag. By using the `label` operand,
-the borrow checker and control flow graph are aware of where the code might
+the borrow checker and control flow graph is aware of where the code might
 jump.
 
-To demonstrate how the readability improves when using Rust compared to C,
-let's look at the following code :
+To demonstrate how the readability improves when using Rust compared to C, let's look at the following code :
 
 ```C
 #include <stdint.h>
@@ -70,26 +69,19 @@ uses explicit names or classes (`in(reg)`, `out("eax")`) which makes it easier
 to read. Furthermore, Rust handles clobbers automatically via `out(reg)` _ or
 via options like `nomem`.
 
-| Aspect   | Rust asm!                                                   | C/GCC asm                                                 |
-| -------- | ----------------------------------------------------------- | --------------------------------------------------------- |
-| Volatile | Not volatile by default - compiler can eliminate/reorder    | Not volatile by default (but commonly used with volatile) |
-| Memory   | Default assumes may modify Memory (can read/write anywhere) | Similar default│                                          |
-| Stack    | Can clobber stack pointer by default                        | Similar                                                   |
-| Flags    | Can modify flags by default                                 | Similar                                                   |
+## asm! Clobbering Options
 
+| Option          | Effect on compiler optimization                                                                                                  |
+| --------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| nomem           | Doesn't access memory, lets compiler cache variables in registers                                                                |
+| nostack [^2]    | Doesn't modify the stack pointer, doesn't write to red-zone                                                                      |
+| preserves_flags | Doesn't change CPU flags (like zero, overflow, carry), so compiler can skip recomputing condition flags                          |
+| noreturn        | Assembly never returns (e.g.jmp or exit syscall, which never execute the   instruction `return`)                                 |
+| readonly        | Doesn't write to memory. Only reads.                                                                                             |
+| pure            | No side effects, outputs depend only on inputs. Allows compiler to eliminate/reorder.     Must use with nomem or readonly.       |
+| raw             | Treats the assembly string as a literal, disabling Rust’s string interpolation (allowing you to use `{}` without escaping them). |
 
- In your Rust code, you're explicitly adding options (nomem, nostack, preserves_flags, ..)
- to tell the compiler your asm:
-     - Doesn't access memory, lets compiler cache variables in registers (nomem)
-     - Doesn't modify the stack pointer, doesn't write to red-zone (nostack) [^2]
-     - Doesn't change CPU flags (like zero, overflow, carry), so compiler can skip recomputing condition flags (preserves_flags)
-     - Assembly never returns (e.g.jmp or exit syscall, which never execute the
-        instruction `return`) (noreturn)
-     - Doesn't write to memory. Only reads. (readonly)
-     - No side effects, outputs depend only on inputs. Allows compiler to eliminate/reorder.
-        Must use with nomem or readonly. (pure)
-     - Treats the assembly string as a literal, disabling Rust’s string interpolation
-        (allowing you to use {} without escaping them). (raw)
+For an extensive list, check out the [Inline Assembly Rust documentation](https://doc.rust-lang.org/reference/inline-assembly.html#syntax).
 
 ## The Good, ..
 
@@ -195,7 +187,7 @@ positional arguments, keep blocks small and therefore easier to audit, use `core
 if you access struct fields instead of hard-coded numbers, and use __unit tests__ to catch
 logic shifts in assembly early.
 
-# Look into Kernel code?
+# Sub-register arguments and sizing
 
 Here an example for adding x86_64 assembly to Rust code:
 
@@ -252,21 +244,21 @@ note: instantiated into assembly here
 
 In x86_64 assembly, the register `al` denominates an __8 bit register__, `ax` a __16 bit
 register__, `eax` is __32 bit__ and `rax` is a __64 bit register__. What the compiler warns
-us that we are trying to move the value in a 64 bit value (rcx) into a 32 bit
-register (eax). Because our code is running on a 64 bit system, the reg class
+us that we are trying to move the value in a 64 bit value (`rcx`) into a 32 bit
+register (`eax`). Because our code is running on a 64 bit system, the reg class
 an therefore `{val_i}`defaults to a 64 bit register.
 
 And the Rust compiler also gives us an indication how to fix it: Using the
-{val_i:e} modifier we tell the compiler "I know this should be a 64 bit
+`{val_i:e}` modifier we tell the compiler "I know this should be a 64 bit
 register, but I want you to use a 32 bit register explicitly".
 
 While the C compiler treats the assembly string as a black box, the Rust
-compiler parses and validates the assembly before it ever reaches the
+compiler __parses and validates__ the assembly before it ever reaches the
 assembler. The Rust language is more verbose and forces the developer to
-write out things that would be undefined behavior explicitly.
+write out things that would be undefined behavior in other languages explicitly.
 
 If you want your code to be even more portable to different architectures, you can
-let the compiler do the mapping for you:
+let the compiler do the mapping for you for all the arguments:
 
 ```rust
 let mut out_i: u32;
@@ -282,19 +274,18 @@ asm!(
 );
 ```
 
-If you absolutely must use eax because of specific hardware requirements or an ABI,
+If you absolutely must use `eax` because of specific hardware requirements or an ABI,
 you can bind the variable directly to that register.
 
 ```rust
 asm!(
-    "/* eax is now bound to val_v */",
+    "/* eax is now bound to header.version */",
     "mov ebx, eax", 
     in("eax") header.version as u32, // Cast to 32-bit to match 'eax' width
     out("ebx") _,                    // Clobber ebx
 );
 ```
 
----
 
 Rust’s asm! macro is undeniably a triumph of ergonomics. It replaces C’s cryptic hieroglyphics with named arguments and Intel syntax, making low-level code look almost... civilized. It’s the "polite" way to tell the CPU exactly what to do. But remember: once you step inside that unsafe block,
 it's still a minefield, and you are again only one typo away from a segfault that will take
