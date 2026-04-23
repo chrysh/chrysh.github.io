@@ -32,7 +32,11 @@ params:
 
 markup:
   highlight:
-    codeFences: false
+    codeFences: true
+    style: monokai
   goldmark:
     renderer:
       unsafe: true
+    extensions:
+      footnote:
+        enable: true
