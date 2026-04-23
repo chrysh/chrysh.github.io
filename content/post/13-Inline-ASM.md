@@ -27,12 +27,12 @@ forget to list a register in your clobber [^1] list, the compiler won't tell
 you, it will just generate broken code that just crashes.
 
 Rust elevates this relationship again to a __formal contract__. In Rust, even
-assembly code is (somewhat) type aware. If you pass a 64 but pointer into a 32 bit
+assembly code is (somewhat) type aware. If you pass a 64-bit pointer into a 32-bit
 register operand, the compiler will raise a flag. By using the `label` operand,
 the borrow checker and control flow graph is aware of where the code might
 jump.
 
-To demonstrate how the readability improves when using Rust compared to C, let's look at the following code :
+To demonstrate how the readability improves when using Rust compared to C, let's look at the following code:
 
 ```C
 #include <stdint.h>
@@ -66,7 +66,7 @@ While in C the colons are positional (`__asm__("..." : output : input : clobbers
 in Rust the arguments can be positional or named. For the
 registers, C asm uses single-letter codes (e.g. `=a` for output into eax), Rust
 uses explicit names or classes (`in(reg)`, `out("eax")`) which makes it easier
-to read. Furthermore, Rust handles clobbers automatically via `out(reg)` _ or
+to read. Furthermore, Rust handles clobbers automatically via `in(reg)`, `out(reg)`, or
 via options like `nomem`.
 
 ## asm! Clobbering Options
@@ -91,14 +91,14 @@ optimization__.
 While in Rust, the `asm!` macro is __parsed by the compiler__, in C, it is forwarded
 to the assembler.
 
-While C/GCC/Clang defaults to AT&T syntax (e.g., `movl %eax, %ebx`), whis is
+While C/GCC/Clang defaults to AT&T syntax (e.g., `movl %eax, %ebx`), which is
 often considered harder to read due to the pervasive percent signs and reversed
 operand order, Rust defaults to __Intel syntax__ (e.g., `mov ebx, eax`). This
 matches the documentation for most modern processors (x86/x86_64) and is
 generally more concise.
 
-By default, C assumes very little. You must explicitly list cc (condition
-codes) in the clobber list if you modify flags. Rust on the other hand defaults
+By default, C assumes very little. You must explicitly list the cc (condition
+codes) in the clobber list if you modify flags. Rust, on the other hand, defaults
 to __conservative clobbering__. Rust assumes that condition flags are modified
 unless you explicitly pass `options(preserves_flags)`. This prevents subtle
 bugs where a compiler-generated branch is broken by assembly that silently
@@ -151,12 +151,12 @@ calculating offsets or addresses manually in C, and less error prone than using
 calculated values.
 
 ## ..the Bad, ..
-But where there is sun, there is shadow. Using Rust's `asm!` macro also has risks and
+But where there is light, there is shadow. Using Rust's `asm!` macro also has risks and
 disadvantages. Any use of this macro has to be wrapped in an `unsafe` block. This can pollute
 an otherwise clean codebase, where the Rust compiler usually handles memory safety automatically.
 
 While in modern gcc versions, an asm block can directly jump to a C label,
-Rust's `asm!` is strictly local, which makes cross language control flow more restricted.
+Rust's `asm!` is strictly local, which makes cross-language control flow more restricted.
 Even though I would argue that jumping to labels and creating spaghetti code is not
 a sign of a great software architecture anyways.
 
@@ -172,10 +172,10 @@ Other things to keep in mind is that inline assembly is "invisible" to many of R
 tools. The auto formatter `cargo fmt` does not reformat the assembly code string, and the linter
 `clippy` cannot catch logical errors or non-idiomatic assembly patterns.
 
-When refactoring, silent errors can occur. Like in C asm, if input or output arguments are swapped in the register list, the assembly block still executes, but performs the operation on the wrong data. And since the assembly, as mentioned, is in an `unsafe` block, the compiler can not catch and reprimand you.
+When refactoring, silent errors can occur. Like in C asm, if input or output arguments are swapped in the register list, the assembly block still executes, but performs the operation on the wrong data. And since the assembly, as mentioned, is in an `unsafe` block, the compiler cannot catch these errors.
 
-Even more so, if during refactoring a variable type is changed from `u32` to `u64`, but your
-assembly code explicitly uses 32-bit register, the instruction will operate only on the lower
+Furthermore, if during refactoring a variable type is changed from `u32` to `u64`, but your
+assembly code explicitly uses 32-bit registers, the instruction will operate only on the lower
 bits and silently leave the upper 32 bits of your new `u64` variable as garbage data.
 
 Last but not least, if you use named arguments in `asm!`, and you refactor your surrounding
@@ -185,7 +185,7 @@ binding the wrong variable.
 To keep errors even between refactoring passes to a minimum, use __named arguments__ instead of
 positional arguments, keep blocks small and therefore easier to audit, use `core::mem::offset_of!`
 if you access struct fields instead of hard-coded numbers, and use __unit tests__ to catch
-logic shifts in assembly early.
+logic errors in assembly early.
 
 # Sub-register arguments and sizing
 
@@ -242,15 +242,15 @@ note: instantiated into assembly here
    |     ^
 ```
 
-In x86_64 assembly, the register `al` denominates an __8 bit register__, `ax` a __16 bit
-register__, `eax` is __32 bit__ and `rax` is a __64 bit register__. What the compiler warns
-us that we are trying to move the value in a 64 bit value (`rcx`) into a 32 bit
-register (`eax`). Because our code is running on a 64 bit system, the reg class
-an therefore `{val_i}`defaults to a 64 bit register.
+In x86_64 assembly, the register `al` denominates an __8-bit register__, `ax` a __16-bit__ register__,
+`eax` is __32-bit__ and `rax` is a __64-bit register__. The compiler warns
+us that we are trying to move a 64-bit value into a 32-bit
+register (`eax`). Because our code is running on a 64-bit system, the reg class, and therefore
+`{val_i}`, defaults to a 64-bit register.
 
 And the Rust compiler also gives us an indication how to fix it: Using the
-`{val_i:e}` modifier we tell the compiler "I know this should be a 64 bit
-register, but I want you to use a 32 bit register explicitly".
+`{val_i:e}` modifier we tell the compiler "I know this should be a 64-bit
+register, but I want you to use a 32-bit register explicitly".
 
 While the C compiler treats the assembly string as a black box, the Rust
 compiler __parses and validates__ the assembly before it ever reaches the
@@ -287,10 +287,13 @@ asm!(
 ```
 
 
-Rust’s asm! macro is undeniably a triumph of ergonomics. It replaces C’s cryptic hieroglyphics with named arguments and Intel syntax, making low-level code look almost... civilized. It’s the "polite" way to tell the CPU exactly what to do. But remember: once you step inside that unsafe block,
-it's still a minefield, and you are again only one typo away from a segfault that will take
-days to debug. While in C, you can shoot yourself in the foot, in Rust you shoot yourself in the
-foot, but you had to sign a waiver first.
+Rust’s asm! macro is undeniably a triumph of ergonomics. It replaces C’s
+cryptic hieroglyphics with named arguments and Intel syntax, making low-level
+code look almost... civilized. It’s the "polite" way to tell the CPU exactly
+what to do. But once you step inside that unsafe block, it's still a minefield
+where you are only one typo away from a segfault that will take days to debug.
+While in C, you can shoot yourself in the foot, in Rust you first sign a waiver
+before shooting yourself in the foot.
 
 
 ---
