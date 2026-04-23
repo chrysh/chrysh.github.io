@@ -83,6 +83,12 @@ via options like `nomem`.
 
 For an extensive list, check out the [Inline Assembly Rust documentation](https://doc.rust-lang.org/reference/inline-assembly.html#syntax).
 
+Furthermore, [ABI clobbers](https://doc.rust-lang.org/reference/inline-assembly.html#abi-clobbers)
+can be used to apply a default set of clobbers, for
+example, for a specific coding convention like `"C"`, `"sysv64"`,
+`"win64"`, etc. Generic register class outputs are not allowed when using this
+keyword.
+
 ## The Good, ..
 
 While Rust’s inline assembly was inspired by C’s asm (and `__asm__`), several
