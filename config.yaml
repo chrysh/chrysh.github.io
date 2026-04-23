@@ -38,5 +38,4 @@ markup:
     renderer:
       unsafe: true
     extensions:
-      footnote:
-        enable: true
+      footnote: true
