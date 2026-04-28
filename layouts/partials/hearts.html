@@ -39,7 +39,7 @@
 
 <script>
 (function() {
-  const API_HOST = 'https://api.countapi.xyz';
+  const API_HOST = 'https://countapi.mileshilliard.com/api/v1';
   const NAMESPACE = 'blog-hearts';
   
   function getPostKey() {
@@ -55,10 +55,10 @@
     var btn = container.querySelector('.hearts-btn');
     var countEl = container.querySelector('.hearts-count');
     
-    fetch(API_HOST + '/' + key)
+    fetch(API_HOST + '/get/' + key)
       .then(function(r) { return r.json(); })
       .then(function(data) {
-        countEl.textContent = data.count;
+        countEl.textContent = data.value;
       })
       .catch(function() {
         countEl.textContent = '0';
@@ -74,7 +74,7 @@
       fetch(API_HOST + '/hit/' + key, { method: 'POST' })
         .then(function(r) { return r.json(); })
         .then(function(data) {
-          countEl.textContent = data.count;
+          countEl.textContent = data.value;
           localStorage.setItem('hearts-reacted-' + key, 'true');
           btn.disabled = true;
         });
