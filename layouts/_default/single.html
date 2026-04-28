@@ -24,4 +24,8 @@
 {{ .Content }}
 </main>
 
+{{ if eq .Section "post" }}
+{{ partial "hearts.html" . }}
+{{ end }}
+
 {{ partial "footer.html" . }}
