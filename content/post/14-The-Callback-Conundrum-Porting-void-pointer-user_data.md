@@ -3,10 +3,13 @@ title: The Callback Conundrum - Porting void pointers to user data
 date: '2026-04-29'
 categories:
   - Rust
-  - C
+  - Linux Kernel
 tags:
   - Rust
-  - C
+  - Linux Kernel
+  - FFI
+  - callbacks
+  - platform drivers
 ---
 
 [<img class="penguin" style="float: right; padding-left: 5%" src="/static/img/rusty_penguin_15.jpeg" alt="Rusty penguin. Created by DALL·E 3."/>](https://github.com/Rust-for-Linux/)
