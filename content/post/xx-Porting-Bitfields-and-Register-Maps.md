@@ -1,6 +1,6 @@
 ---
 title: Porting Bitfields and Register Maps
-date: '2026-05-01'
+date: '2030-05-01'
 categories:
   - Rust
   - C
