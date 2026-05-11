@@ -13,7 +13,7 @@ tags:
   - Migration
 ---
 
-[<img class="penguin" style="float: left; padding-left: 0%" src="/static/img/rusty_penguin_17.jpeg" alt="Rusty penguin. Created by DALL·E 3."/>](https://github.com/Rust-for-Linux/)
+[<img class="penguin" style="float: left; padding-left: 0%; width: 30%" src="/static/img/rusty_penguin_17.jpeg" alt="Rusty penguin. Created by DALL·E 3."/>](https://github.com/Rust-for-Linux/)
 
 
 # The C Cleanup Pattern
