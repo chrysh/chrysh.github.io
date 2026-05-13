@@ -191,3 +191,42 @@ and restore interrupts on the local processor, or use the functions
 `spin_lock_irqsave` and `spin_unlock_irqrestore`, which take care of that. So
 while the code presented is a good start, more work is needed to make more
 Kernel spinlock functionality available to Rust.
+
+<div style="border-left: 3px solid #ccc; padding-left: 15px;">
+
+### Update: From Code-Locked to Data-Locked
+<p style="margin-top: -15px; font-size: 0.85em;"><i>Wed May 13 2026</i></p>
+
+The most fundamental shift for a C developer is moving from **locking code** to **locking data**.
+
+In C, a mutex and the data it protects are separate entities. You *hope* the developer remembered to call `mutex_lock()` before touching the data.
+
+**C Approach (Code-Locked):**
+```c
+struct shared_data {
+    int value;
+};
+struct mutex my_lock; // Separate from the data
+
+void update(struct shared_data *d) {
+    mutex_lock(&my_lock);
+    d->value++; // We manually ensure the lock is held
+    mutex_unlock(&my_lock);
+}
+```
+
+**Rust Approach (Data-Locked):**
+In Rust, the data is **inside** the lock. You cannot even get a reference to the data without successfully acquiring the lock.
+```rust
+struct SharedData {
+    value: i32,
+}
+
+fn update(lock: &Mutex<SharedData>) {
+    let mut data = lock.lock(); // Acquires lock AND returns a wrapper to the data
+    data.value += 1; 
+    // Lock is automatically released when 'data' goes out of scope
+}
+```
+This is a transition from "I hope I remembered the lock" to "The compiler won't let me touch the data without the lock."
+</div>
