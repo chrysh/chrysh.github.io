@@ -87,9 +87,12 @@ In Rust, an immutable reference `&T` is truly immutably shared. Unless you use "
 | Concurrency | Many can read simultaneously | No one else can read or write |
 | Access      | Read-only                    | Read-Write                    |
 
-The "Static" Benefit: You should emphasize that while a Mutex or RWLock has a runtime cost (checking the lock state, blocking threads), Rust's "lock" is erased at compile-time.
-
-The Rule of Aliasing: In C, the compiler often can't optimize code because it doesn't know if two pointers alias (point to the same memory). In Rust, the "Exclusive Lock" rule (&mut) guarantees to the compiler that no other pointer aliases that memory, allowing for much more aggressive optimization.
+While a Mutex or RWLock has a runtime cost (checking the lock state, blocking
+threads), Rust's "lock" is erased at compile-time.
+In C, the compiler often can't optimize code because it doesn't know if two
+pointers alias (point to the same memory). In Rust, the "Exclusive Lock" rule
+(&mut) guarantees to the compiler that no other pointer aliases that memory,
+allowing for much more aggressive optimization.
 
 In fact, the Rust compiler effectively acts as a static borrow checker that enforces the same rules at compile-time that a `pthread_rwlock_t` enforces at runtime.
 
