@@ -8,6 +8,7 @@ modules** in **Rust**. It seemed hard to find information on this topic, so I
 started out first with [Advent of Code](https://adventofcode.com/2023/) in 2023
 in order to learn Rust. From challenge to challenge, I feel like [my
 code](https://github.com/chrysh/Advent-of-Code-2023) became more "rusty".
+To get a solid grasp of the core concepts, I also worked through [rustlings](https://github.com/rust-lang/rustlings), which I highly recommend to anyone starting out.
 
 But then I quickly moved to exploring the current state of Rust in the Linux
 kernel, compiled and loaded the first examples and ported my first phy driver.
