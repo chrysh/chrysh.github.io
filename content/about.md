@@ -19,15 +19,9 @@ After finishing a diploma in Computer Science and a masters in Electrical
 Engineering, I have been working in the field of Embedded Linux for nearly a
 decade now. From time to time, I do fun projects and talks about it.
 
-I also offer [consultancy services](https://christina-quast.de) for Embedded Linux and Rust.
-
-Check out my upcoming talks:
-
-* [From Malloc To Box: A Practical Guide To Rustification - ELC North America 2026](https://sched.co/2JQyQ)  
-  May 19, 2026 | Minneapolis, MN
-
 Check out my past talks:
 
+* [From Malloc To Box: A Practical Guide To Rustification - ELC North America 2026](https://www.youtube.com/watch?v=2EJXuXkXAks)
 * [Rust in the Linux Kernel - MRMCD 2024](https://media.ccc.de/v/2024-323-rust-in-the-linux-kernel-a-status-check)
 * [Common Attacks on IoT Devices - ELCE 2018](https://www.youtube.com/watch?v=vKZVbX-hNyE)
 * [Exploiting Buffer Overflows on RISC-V](https://www.youtube.com/watch?v=uBhaw49qooE)
@@ -36,6 +30,8 @@ parallel problem on the Intel Xeon Phi Knights Landing](https://media.ccc.de/v/E
 
 
 # about::contact
+
+I also offer [consultancy services](https://christina-quast.de) for Embedded Linux and Rust.
 
 Questions? Suggestions? Feel free to write me a [pull request](https://github.com/chrysh/chrysh.github.io) or contact me via mail on:  
 `fun_with_rust(a)chrysh.de`

@@ -56,4 +56,4 @@ Questions? Interested in a workshop or a consulting session for your team? I off
 
 Get in touch to discuss a tailored syllabus and [consultancy options](https://christina-quast.de):
 
-workshops(a)christina-quast.de
+hello(a)christina-quast.de
