@@ -22,13 +22,13 @@ menu:
     - name: About
       url: "about/"
       weight: 5
-    - name: Workshops
-      url: "workshops/"
+    - name: Consulting
+      url: "consulting/"
       weight: 6
 
 params:
   description: "A blog on Rust, Linux Kernel Development and related tech stuff."
-  footer: "&copy; [Christina Quast](https://chrysh.github.io) 2024 -- {Year} | [Github](https://github.com/chrysh)"
+  footer: "&copy; [Christina Quast](https://chrysh.github.io) 2024 -- {Year} | [Github](https://github.com/chrysh) | [Consultancy](https://christina-quast.de)"
 
 markup:
   highlight:

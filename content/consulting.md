@@ -1,5 +1,5 @@
 ---
-title: about::workshops
+title: about::consulting
 author: Christina Quast
 ---
 
@@ -54,6 +54,6 @@ For a full list of my technical talks and background, see the [About page](/abou
 
 Questions? Interested in a workshop or a consulting session for your team? I offer both remote and on-site training across Europe.
 
-Get in touch to discuss a tailored syllabus and consultancy options:
+Get in touch to discuss a tailored syllabus and [consultancy options](https://christina-quast.de):
 
 workshops(a)christina-quast.de

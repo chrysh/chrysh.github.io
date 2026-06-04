@@ -19,6 +19,8 @@ After finishing a diploma in Computer Science and a masters in Electrical
 Engineering, I have been working in the field of Embedded Linux for nearly a
 decade now. From time to time, I do fun projects and talks about it.
 
+I also offer [consultancy services](https://christina-quast.de) for Embedded Linux and Rust.
+
 Check out my upcoming talks:
 
 * [From Malloc To Box: A Practical Guide To Rustification - ELC North America 2026](https://sched.co/2JQyQ)  
